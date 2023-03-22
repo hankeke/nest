@@ -32,7 +32,7 @@
         :tree-props="{children: 'children'}">
         <el-table-column prop="name" label="部门名称" :show-overflow-tooltip="true"></el-table-column>
         <el-table-column prop="sortOrder" label="排序" align="center"></el-table-column>
-        <el-table-column prop="createTime" label="创建时间" align="center"></el-table-column>
+        <el-table-column :formatter="formatDate" prop="createTime" label="创建时间" align="center"></el-table-column>
         <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
           <template v-slot="scope">
             <el-button
@@ -70,7 +70,8 @@ import {delObj, fetchTree} from '@/api/admin/dept'
 import TableForm from './dept-form'
 import {mapGetters} from 'vuex'
 import ExcelUpload from '@/components/upload/excel'
-
+import dayjs from 'dayjs'
+import 'dayjs/locale/zh-cn'
 export default {
   name: 'Dept',
   components: {TableForm, ExcelUpload},
@@ -122,6 +123,9 @@ export default {
         this.$message.success('删除成功')
       })
     },
+    formatDate(row, column, cellValue) {
+      return dayjs(cellValue).format('YYYY-MM-DD HH:mm:ss')
+    }
   }
 }
 </script>

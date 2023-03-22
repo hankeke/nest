@@ -1,19 +1,4 @@
-<!--
-  -    Copyright (c) 2018-2025, lengleng All rights reserved.
-  -
-  - Redistribution and use in source and binary forms, with or without
-  - modification, are permitted provided that the following conditions are met:
-  -
-  - Redistributions of source code must retain the above copyright notice,
-  - this list of conditions and the following disclaimer.
-  - Redistributions in binary form must reproduce the above copyright
-  - notice, this list of conditions and the following disclaimer in the
-  - documentation and/or other materials provided with the distribution.
-  - Neither the name of the pig4cloud.com developer nor the names of its
-  - contributors may be used to endorse or promote products derived from
-  - this software without specific prior written permission.
-  - Author: lengleng (wangiegie@gmail.com)
-  -->
+
 
 <template>
   <div class="app-container calendar-list-container">
@@ -139,12 +124,12 @@
         <el-button
           type="primary"
           size="small"
-          @click="updatePermession(roleId)">更 新
+          @click="updatePermission(roleId)">更 新
         </el-button>
         <el-button
           type="default"
           size="small"
-          @click="cancal()">取消
+          @click="cancel()">取消
         </el-button>
       </div>
     </el-dialog>
@@ -216,7 +201,7 @@ export default {
         size: page.pageSize,
         descs: ['create_time']
       }, params, this.searchForm)).then(response => {
-        const {data, total} = response.data
+        const {data, total} = response
         this.list = data
         this.page.total = total
         this.listLoading = false
@@ -257,21 +242,23 @@ export default {
     handleUpdate(row, index) {
       this.$refs.crud.rowEdit(row, index)
     },
-    cancal() {
+    cancel() {
       this.dialogPermissionVisible = false
     },
     handlePermission(row) {
-      fetchRoleTree(row.roleId)
+      fetchRoleTree(row._id)
         .then(response => {
-          this.checkedKeys = response.data.data
+          const { data } = response
+          this.checkedKeys = data
           return fetchMenuTree()
         })
         .then(response => {
-          this.treeData = response.data.data
+          const { data } = response
+          this.treeData = data
           // 解析出所有的太监节点
           this.checkedKeys = this.resolveAllEunuchNodeId(this.treeData, this.checkedKeys, [])
           this.dialogPermissionVisible = true
-          this.roleId = row.roleId
+          this.roleId = row._id
           this.roleCode = row.roleCode
         })
     },
@@ -307,7 +294,7 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(function () {
-        return delObj(row.roleId)
+        return delObj(row._id)
       }).then(() => {
         this.getList(this.page)
         this.$notify.success('删除成功')
@@ -337,7 +324,7 @@ export default {
         loading()
       })
     },
-    updatePermession(roleId) {
+    updatePermission(roleId) {
       this.menuIds = ''
       this.menuIds = this.$refs.menuTree.getCheckedKeys().join(',').concat(',').concat(this.$refs.menuTree.getHalfCheckedKeys().join(','))
       permissionUpd(roleId, this.menuIds).then(() => {

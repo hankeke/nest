@@ -1,18 +1,21 @@
-import {cloud} from "@/api/cloud"
-// 初始化DB对象
+import { cloud } from "@/api/cloud"
+
 const DB = cloud.database()
-// 定义操作的文档
 const DB_NAME = {
   SYS_DEPT: 'sys_dept'
 }
 
 export async function fetchTree(query) {
   console.debug('Dept[fetchTree] request param')
-  let res = await DB.collection(DB_NAME.SYS_DEPT)
+  const { data, ok } = await DB.collection(DB_NAME.SYS_DEPT)
     .where({})
-    .orderBy('sortOrder','asc')
+    .orderBy('sortOrder', 'asc')
     .get()
-  res.data = buildTree(res.data)
+  const tree = buildTree(data)
+  const res = {
+    data: tree,
+    success: ok
+  }
   console.debug('Dept[fetchTree] res->', res)
   return res
 }
@@ -21,6 +24,7 @@ export async function addObj(obj) {
   console.log('Dept[addObj] request param obj->', obj)
   const o = {
     ...obj,
+    updateTime: Date.now(),
     createTime: new Date()
   }
   const res = await DB.collection(DB_NAME.SYS_DEPT)
@@ -56,10 +60,10 @@ export async function putObj(obj) {
   const data = {
     ...obj,
     updateTime: Date.now(),
-    _id: undefined,
-  };
+    _id: undefined
+  }
   // 不可更新主键
-  delete data._id;
+  delete data._id
   const res = await DB.collection(DB_NAME.SYS_DEPT)
     .doc(id)
     .update(data)
@@ -69,21 +73,21 @@ export async function putObj(obj) {
 }
 
 
-function buildTree(permissions) {
-  let tree = [];
-  for (let i = 0; i < permissions.length; i++) {
-    let arr = [];
-    for (let j = 0; j < permissions.length; j++) {
-      if (permissions[i]._id === permissions[j].parentId) {
-        permissions[i].children = arr;
-        arr.push(permissions[j]);
+function buildTree(deptList) {
+  const tree = []
+  for (let i = 0; i < deptList.length; i++) {
+    const arr = []
+    for (let j = 0; j < deptList.length; j++) {
+      if (deptList[i]._id === deptList[j].parentId) {
+        deptList[i].children = arr
+        arr.push(deptList[j])
       }
     }
   }
-  for (let i = 0; i < permissions.length; i++) {
-    if (permissions[i].parentId === '0') {
-      tree.push(permissions[i]);
+  for (let i = 0; i < deptList.length; i++) {
+    if (deptList[i].parentId === '0') {
+      tree.push(deptList[i])
     }
   }
-  return tree;
+  return tree
 }
