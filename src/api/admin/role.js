@@ -1,4 +1,10 @@
 import request from '@/router/axios'
+import {cloud} from "@/api/cloud";
+
+const DB = cloud.database()
+const DB_NAME = {
+  SYS_ROLE: 'sys_role'
+}
 
 export function roleList() {
   return request({
@@ -7,12 +13,28 @@ export function roleList() {
   })
 }
 
-export function fetchList(query) {
-  return request({
-    url: '/admin/role/page',
-    method: 'get',
-    params: query
-  })
+export async function fetchList(query) {
+  console.debug('Role[fetchList] request param query->', query)
+  const {current, size} = query;
+  const res = await DB
+    .collection(DB_NAME.SYS_ROLE)
+    .where({})
+    .skip(size * (current - 1))
+    .limit(size)
+    .get();
+
+  const {total} = await DB.collection(DB_NAME.SYS_ROLE)
+    .where({})
+    .count();
+
+  console.debug('分页查询结果: ', res.data);
+  const r = {
+    data: res.data,
+    success: res.ok,
+    total,
+  };
+  console.debug('Role[fetchList] result->', r)
+  return r
 }
 
 export function deptRoleList() {

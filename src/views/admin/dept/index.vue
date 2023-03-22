@@ -13,7 +13,6 @@
         </el-form-item>
         <el-form-item>
           <el-button type="primary" icon="el-icon-search" @click="getList">搜索</el-button>
-
           <el-button
             v-if="permissions.sys_menu_add"
             icon="el-icon-plus"
@@ -21,37 +20,6 @@
             @click="addOrUpdateHandle(false)">
             添加
           </el-button>
-
-          <el-button
-            class="filter-item"
-            plain
-            type="primary"
-            size="small"
-            icon="el-icon-download"
-            @click="exportExcel"
-          >导出
-          </el-button>
-          <el-button
-            class="filter-item"
-            plain
-            type="primary"
-            size="small"
-            icon="el-icon-upload"
-            @click="$refs.excelDeptUpload.show()"
-          >导入
-          </el-button>
-
-          <el-dropdown v-if="website.connectSync" style="margin-left: 10px">
-            <el-button type="primary">
-              互联同步<i class="el-icon-arrow-down el-icon--right"></i>
-            </el-button>
-            <el-dropdown-menu slot="dropdown">
-              <el-dropdown-item @click.native="sync(1)">钉钉部门同步</el-dropdown-item>
-              <el-dropdown-item @click.native="sync(2)">钉钉用户同步</el-dropdown-item>
-              <el-dropdown-item @click.native="sync(3)">企微部门同步</el-dropdown-item>
-              <el-dropdown-item @click.native="sync(4)">企微用户同步</el-dropdown-item>
-            </el-dropdown-menu>
-          </el-dropdown>
         </el-form-item>
       </el-form>
 
@@ -59,11 +27,11 @@
         v-loading="loading"
         border
         :data="deptList"
-        row-key="id"
+        row-key="_id"
         default-expand-all
         :tree-props="{children: 'children'}">
         <el-table-column prop="name" label="部门名称" :show-overflow-tooltip="true"></el-table-column>
-        <el-table-column prop="weight" label="排序" align="center"></el-table-column>
+        <el-table-column prop="sortOrder" label="排序" align="center"></el-table-column>
         <el-table-column prop="createTime" label="创建时间" align="center"></el-table-column>
         <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
           <template v-slot="scope">
@@ -72,14 +40,14 @@
               size="small"
               type="text"
               icon="el-icon-plus"
-              @click="addOrUpdateHandle(false,scope.row.id)">新增
+              @click="addOrUpdateHandle(false,scope.row._id)">新增
             </el-button>
             <el-button
               v-if="permissions.sys_dept_edit"
               size="small"
               type="text"
               icon="el-icon-edit"
-              @click="addOrUpdateHandle(true,scope.row.id)">修改
+              @click="addOrUpdateHandle(true,scope.row._id)">修改
             </el-button>
             <el-button
               v-if="permissions.sys_dept_del"
@@ -91,12 +59,6 @@
           </template>
         </el-table-column>
       </el-table>
-      <excel-upload
-        ref="excelDeptUpload"
-        title="部门信息导入"
-        url="/admin/dept/import"
-        @refreshDataList="refreshChange"
-      ></excel-upload>
 
       <table-form v-if="addOrUpdateVisible" ref="addOrUpdate" @refreshDataList="getList"></table-form>
     </div>
@@ -104,7 +66,7 @@
 </template>
 
 <script>
-import {delObj, fetchTree, syncCpDept, syncCpUser, syncDept, syncUser} from '@/api/admin/dept'
+import {delObj, fetchTree} from '@/api/admin/dept'
 import TableForm from './dept-form'
 import {mapGetters} from 'vuex'
 import ExcelUpload from '@/components/upload/excel'
@@ -144,7 +106,7 @@ export default {
     getList() {
       this.loading = true
       fetchTree(this.queryParams).then(response => {
-        this.deptList = response.data.data
+        this.deptList = response.data
         this.loading = false
       })
     },
@@ -154,41 +116,12 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(function () {
-        return delObj(row.id)
+        return delObj(row._id)
       }).then(() => {
         this.getList()
         this.$message.success('删除成功')
       })
     },
-    // 互联数据同步
-    sync(type) {
-      this.$confirm('此操作将覆盖现有系统部门人员数据，请做好数据备份, 是否继续?', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
-      }).then(() => {
-        if (type === 1) {
-          return syncDept()
-        }
-        if (type === 2) {
-          return syncUser()
-        }
-
-        if (type === 3) {
-          return syncCpDept()
-        }
-
-        if (type === 4) {
-          return syncCpUser()
-        }
-      }).then(() => {
-        this.$message.success('操作成功')
-        this.getList()
-      })
-    },
-    exportExcel() {
-      this.downBlobFile('/admin/dept/export', this.searchForm, 'dept.xlsx')
-    }
   }
 }
 </script>

@@ -216,8 +216,9 @@ export default {
         size: page.pageSize,
         descs: ['create_time']
       }, params, this.searchForm)).then(response => {
-        this.list = response.data.data.records
-        this.page.total = response.data.data.total
+        const {data, total} = response.data
+        this.list = data
+        this.page.total = total
         this.listLoading = false
       }).catch(() => {
         this.listLoading = false

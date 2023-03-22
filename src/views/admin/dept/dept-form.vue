@@ -1,7 +1,7 @@
 <template>
   <!-- 添加或修改菜单对话框 -->
   <el-dialog
-    :title="!form.deptId ? '新增': '修改'"
+    :title="!form._id ? '新增': '修改'"
     :visible.sync="visible"
     append-to-body>
     <el-form ref="dataForm" :model="form" :rules="rules" label-width="80px">
@@ -74,7 +74,7 @@ export default {
         this.$refs['dataForm'].resetFields()
         if (isEdit) {
           getObj(id).then(response => {
-            this.form = response.data.data
+            this.form = response.data
           })
         } else {
           this.form.deptId = undefined
@@ -86,10 +86,9 @@ export default {
       this.$refs['dataForm'].validate((valid) => {
         if (valid) {
           if (this.form.parentId === undefined) {
-            this.form.parentId = 0
+            this.form.parentId = "0"
           }
-
-          if (this.form.deptId) {
+          if (this.form._id) {
             putObj(this.form).then(data => {
               this.$message.success('修改成功')
               this.visible = false
@@ -109,7 +108,7 @@ export default {
     getTreeselect() {
       fetchTree().then(response => {
         this.deptOptions = []
-        const dept = {id: 0, name: '根部门', children: response.data.data}
+        const dept = {_id: "0", name: '根部门', children: response.data}
         this.deptOptions.push(dept)
       })
     },
@@ -120,7 +119,7 @@ export default {
       }
 
       return {
-        id: node.id,
+        id: node._id,
         label: node.name,
         children: node.children
       }
