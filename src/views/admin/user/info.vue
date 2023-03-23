@@ -1,5 +1,3 @@
-
-
 <template>
   <div class="app-container calendar-list-container">
     <basic-container>

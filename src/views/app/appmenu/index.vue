@@ -1,4 +1,3 @@
-
 <template>
   <basic-container>
     <div class="avue-crud">

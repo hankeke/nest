@@ -1,9 +1,9 @@
-import { getStore, setStore } from '@/util/store'
-import { isURL, validatenull } from '@/util/validate'
-import { loginByUsername, getUserInfo } from '@/api/login'
-import { deepClone } from '@/util'
+import {getStore, setStore} from '@/util/store'
+import {isURL, validatenull} from '@/util/validate'
+import {getUserInfo, loginByUsername} from '@/api/login'
+import {deepClone} from '@/util'
 import website from '@/const/website'
-import { getMenu, getTopMenu } from '@/api/admin/menu'
+import {getMenu, getTopMenu} from '@/api/admin/menu'
 
 function addPath(ele, first) {
   const menu = website.menu
@@ -49,7 +49,7 @@ const user = {
   },
   actions: {
     // 根据用户名登录
-    LoginByUsername({ commit }, userInfo) {
+    LoginByUsername({commit}, userInfo) {
       return new Promise((resolve, reject) => {
         loginByUsername(userInfo.username, userInfo.password).then(response => {
           const data = response.data
@@ -62,7 +62,7 @@ const user = {
       })
     },
     // 查询用户信息
-    GetUserInfo({ commit }) {
+    GetUserInfo({commit}) {
       return new Promise((resolve, reject) => {
         getUserInfo().then((res) => {
           const data = res.data || {}
@@ -76,7 +76,7 @@ const user = {
       })
     },
     // 获取系统菜单
-    GetMenu({ commit }, obj) {
+    GetMenu({commit}, obj) {
       // 记录用户点击顶部信息，保证刷新的时候不丢失
       commit('LIKE_TOP_MENUID', obj)
       return new Promise(resolve => {
@@ -87,7 +87,7 @@ const user = {
             addPath(ele)
           })
           const type = obj.type
-          commit('SET_MENU', { type, menu })
+          commit('SET_MENU', {type, menu})
           resolve(menu)
         })
       })
@@ -120,7 +120,7 @@ const user = {
       })
     },
     SET_MENU: (state, params = {}) => {
-      const { menu, type } = params
+      const {menu, type} = params
       if (type !== false) state.menu = menu
       setStore({
         name: 'menu',

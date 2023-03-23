@@ -4,19 +4,19 @@
  */
 import router from './router/router'
 import store from '@/store'
-import { validatenull } from '@/util/validate'
+import {validatenull} from '@/util/validate'
 import NProgress from 'nprogress' // progress bar
 import 'nprogress/nprogress.css' // progress bar style
-NProgress.configure({ showSpinner: false })
+NProgress.configure({showSpinner: false})
 
 router.beforeEach((to, from, next) => {
   NProgress.start()
   const meta = to.meta || {}
   if (store.getters.access_token) {
     if (store.getters.isLock && to.path !== '/lock') {
-      next({ path: '/lock' })
+      next({path: '/lock'})
     } else if (to.path === '/login') {
-      next({ path: '/' })
+      next({path: '/'})
     } else {
       const value = to.query.src || to.fullPath
       const label = to.query.name || to.name

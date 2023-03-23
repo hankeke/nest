@@ -23,7 +23,7 @@ export default {
   data() {
     return {
       box: {
-        span:6,
+        span: 6,
         data: [
           {
             click: function (item) {
@@ -33,7 +33,7 @@ export default {
             count: 12332,
             icon: 'el-icon-warning',
             color: 'rgb(49, 180, 141)',
-            target:'_blank'
+            target: '_blank'
           },
           {
             click: function (item) {
@@ -43,7 +43,7 @@ export default {
             count: 33,
             icon: 'el-icon-view',
             color: 'rgb(56, 161, 242)',
-            target:'_blank'
+            target: '_blank'
           },
           {
             click: function (item) {
@@ -53,7 +53,7 @@ export default {
             count: 2223,
             icon: 'el-icon-setting',
             color: 'rgb(117, 56, 199)',
-            target:'_blank'
+            target: '_blank'
           },
           {
             click: function (item) {
@@ -63,12 +63,12 @@ export default {
             count: 2223,
             icon: 'el-icon-setting',
             color: 'rgb(117, 56, 199)',
-            target:'_blank'
+            target: '_blank'
           },
         ]
       },
       icons: {
-        span:4,
+        span: 4,
         data: [
           {
             click: function (item) {
@@ -76,9 +76,9 @@ export default {
             },
             title: '今日注册',
             count: 12678,
-            decimals:2,
+            decimals: 2,
             icon: 'el-icon-tickets',
-            target:'_blank'
+            target: '_blank'
           },
           {
             click: function (item) {
@@ -87,7 +87,7 @@ export default {
             title: '今日登录',
             count: 22139,
             icon: 'el-icon-success',
-            target:'_blank'
+            target: '_blank'
           },
           {
             click: function (item) {
@@ -96,7 +96,7 @@ export default {
             title: '今日订阅',
             count: 35623,
             icon: 'el-icon-info',
-            target:'_blank'
+            target: '_blank'
           },
           {
             click: function (item) {
@@ -105,7 +105,7 @@ export default {
             title: '今日评论',
             count: 16826,
             icon: 'el-icon-message',
-            target:'_blank'
+            target: '_blank'
           },
           {
             click: function (item) {
@@ -114,7 +114,7 @@ export default {
             title: '今日评论',
             count: 16826,
             icon: 'el-icon-message',
-            target:'_blank'
+            target: '_blank'
           },
           {
             click: function (item) {
@@ -123,12 +123,12 @@ export default {
             title: '今日评论',
             count: 16826,
             icon: 'el-icon-message',
-            target:'_blank'
+            target: '_blank'
           }
         ]
       },
       progress: {
-        span:6,
+        span: 6,
         data: [
           {
             click: function (item) {
@@ -137,34 +137,34 @@ export default {
             title: '转化率（日同比 28%）',
             color: 'rgb(178, 159, 255)',
             count: 32,
-            target:'_blank'
+            target: '_blank'
           },
           {
             click: function (item) {
               alert(JSON.stringify(item));
             },
             title: '签到率（日同比 11%）',
-            color:'rgb(230, 71, 88)',
+            color: 'rgb(230, 71, 88)',
             count: 32,
-            target:'_blank'
+            target: '_blank'
           },
           {
             click: function (item) {
               alert(JSON.stringify(item));
             },
             title: 'CPU使用率',
-            color:'rgb(27, 201, 142)',
+            color: 'rgb(27, 201, 142)',
             count: 56,
-            target:'_blank'
+            target: '_blank'
           },
           {
             click: function (item) {
               alert(JSON.stringify(item));
             },
             title: '使用人数',
-            color:'red',
+            color: 'red',
             count: 56,
-            target:'_blank'
+            target: '_blank'
           }
         ]
       },
@@ -194,9 +194,7 @@ export default {
   computed: {
     ...mapGetters(['website'])
   },
-  methods: {
-
-  }
+  methods: {}
 }
 </script>
 

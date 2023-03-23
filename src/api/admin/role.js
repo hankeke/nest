@@ -1,5 +1,5 @@
 import request from '@/router/axios'
-import { cloud } from "@/api/cloud"
+import {cloud} from "@/api/cloud"
 
 const DB = cloud.database()
 const DB_NAME = {
@@ -17,14 +17,14 @@ export async function roleList() {
 
 export async function fetchList(query) {
   console.debug('Role[fetchList] request param query->', query)
-  const { current, size } = query
+  const {current, size} = query
   const res = await DB
     .collection(DB_NAME.SYS_ROLE)
     .where({})
     .skip(size * (current - 1))
     .limit(size)
     .get()
-  const { total } = await DB.collection(DB_NAME.SYS_ROLE)
+  const {total} = await DB.collection(DB_NAME.SYS_ROLE)
     .where({})
     .count()
   console.debug('分页查询结果: ', res.data)
@@ -46,7 +46,7 @@ export function deptRoleList() {
 
 export async function getObj(id) {
   return await DB.collection(DB_NAME.SYS_ROLE)
-    .where({ _id: id })
+    .where({_id: id})
     .getOne()
 }
 
@@ -104,19 +104,19 @@ export function permissionUpd(roleId, menuIds) {
 }
 
 export async function fetchRoleTree(roleId) {
-  const role = DB.collection(DB_NAME.SYS_ROLE).where({ _id: roleId }).getOne()
+  const role = DB.collection(DB_NAME.SYS_ROLE).where({_id: roleId}).getOne()
   if (!role) {
     throw new Error("role not found")
   }
   const cmd = DB.command
-  const { data: rolePermissions } = await DB.collection(DB_NAME.SYS_ROLE_MENU)
-    .where({ roleId: roleId })
+  const {data: rolePermissions} = await DB.collection(DB_NAME.SYS_ROLE_MENU)
+    .where({roleId: roleId})
     .get()
   const menuIds = rolePermissions.map((menu) => {
     return menu._id
   })
-  const { data, ok } = await DB.collection(DB_NAME.SYS_MENU)
-    .where({ _id: cmd.in(menuIds) })
+  const {data, ok} = await DB.collection(DB_NAME.SYS_MENU)
+    .where({_id: cmd.in(menuIds)})
     .get()
   const tree = buildTree(data)
   const res = {

@@ -1,5 +1,3 @@
-
-
 <template>
   <div class="app-container calendar-list-container">
     <basic-container>
@@ -248,12 +246,12 @@ export default {
     handlePermission(row) {
       fetchRoleTree(row._id)
         .then(response => {
-          const { data } = response
+          const {data} = response
           this.checkedKeys = data
           return fetchMenuTree()
         })
         .then(response => {
-          const { data } = response
+          const {data} = response
           this.treeData = data
           // 解析出所有的太监节点
           this.checkedKeys = this.resolveAllEunuchNodeId(this.treeData, this.checkedKeys, [])

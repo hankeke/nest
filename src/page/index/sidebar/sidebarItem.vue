@@ -8,7 +8,7 @@
         :index="item[pathKey]"
         :class="{'is-active':vaildAvtive(item)}"
         @click="open(item)">
-        <i :class="item[iconKey]" />
+        <i :class="item[iconKey]"/>
         <span
           slot="title"
           :alt="item[pathKey]">{{ item[labelKey] }}</span>
@@ -19,7 +19,7 @@
         :key="item[labelKey]"
         :index="item[pathKey]">
         <template slot="title">
-          <i :class="item[iconKey]" />
+          <i :class="item[iconKey]"/>
           <span
             slot="title"
             :class="{'el-menu--display':collapse && first}">{{ item[labelKey] }}</span>
@@ -32,7 +32,7 @@
             :index="child[pathKey] + cindex"
             :class="{'is-active':vaildAvtive(child)}"
             @click="open(child)">
-            <i :class="child[iconKey]" />
+            <i :class="child[iconKey]"/>
             <span slot="title">{{ child[labelKey] }}</span>
           </el-menu-item>
           <sidebar-item
@@ -41,15 +41,16 @@
             :menu="[child]"
             :props="props"
             :screen="screen"
-            :collapse="collapse" />
+            :collapse="collapse"/>
         </template>
       </el-submenu>
     </template>
   </div>
 </template>
 <script>
-import { mapGetters } from 'vuex'
+import {mapGetters} from 'vuex'
 import config from './config.js'
+
 export default {
   name: 'SidebarItem',
   props: {
@@ -118,7 +119,8 @@ export default {
           src: item[this.pathKey]
         }),
         query: item.query
-      }).catch(() => {})
+      }).catch(() => {
+      })
     }
   }
 }

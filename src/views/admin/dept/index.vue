@@ -72,6 +72,7 @@ import {mapGetters} from 'vuex'
 import ExcelUpload from '@/components/upload/excel'
 import dayjs from 'dayjs'
 import 'dayjs/locale/zh-cn'
+
 export default {
   name: 'Dept',
   components: {TableForm, ExcelUpload},

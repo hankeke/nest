@@ -2,7 +2,7 @@
   <div class="login-container">
     <div class="login-weaper animated bounceInDown">
       <div class="login-logo">
-        <img src="/img/logo.png" alt="" />
+        <img src="/img/logo.png" alt=""/>
       </div>
       <p class="login-tip">{{ website.title }}</p>
       <div class="login-border">
@@ -14,12 +14,12 @@
     <div class="login-copyright">
       {{ website.copyright }}
     </div>
-    <top-color v-show="false" />
+    <top-color v-show="false"/>
   </div>
 </template>
 <script>
 import userLogin from './userlogin'
-import { mapGetters } from 'vuex'
+import {mapGetters} from 'vuex'
 import topColor from '@/page/index/top/top-color'
 
 export default {
@@ -29,14 +29,12 @@ export default {
     topColor
   },
   data() {
-    return {
-    }
+    return {}
   },
   computed: {
     ...mapGetters(['website', 'tagWel'])
   },
-  watch: {
-  },
+  watch: {},
   created() {
 
   },
