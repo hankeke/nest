@@ -1,13 +1,13 @@
-import {rule} from '@/util/validateRules'
-import {getObjByCode} from '@/api/admin/role.js'
+import { rule } from '@/util/validateRules'
+import { getObjByCode } from '@/api/admin/role.js'
 
 const validateRoleCode = (rule, value, callback) => {
   getObjByCode(value).then(response => {
     if (window.boxType === 'edit') {
       return callback()
     }
-    const result = response.data.data
-    if (result && result.length !== 0) {
+    const { data } = response
+    if (data && data.length !== 0) {
       callback(new Error('同名角色标识已存在'))
     } else {
       callback()
@@ -32,8 +32,8 @@ export const tableOption = {
     prop: 'roleName',
     span: 24,
     rules: [
-      {required: true, message: '角色名称不能为空', trigger: 'blur'},
-      {min: 3, max: 20, message: '长度在 3 到 20 个字符', trigger: 'blur'}
+      { required: true, message: '角色名称不能为空', trigger: 'blur' },
+      { min: 3, max: 20, message: '长度在 3 到 20 个字符', trigger: 'blur' }
     ],
     'search': true
   }, {
@@ -42,10 +42,10 @@ export const tableOption = {
     span: 24,
     editDisabled: true,
     rules: [
-      {required: true, message: '角色标识不能为空', trigger: 'blur'},
-      {min: 3, max: 20, message: '长度在 3 到 20 个字符', trigger: 'blur'},
-      {validator: rule.validatorKey, trigger: 'blur'},
-      {validator: validateRoleCode, trigger: 'blur'}
+      { required: true, message: '角色标识不能为空', trigger: 'blur' },
+      { min: 3, max: 20, message: '长度在 3 到 20 个字符', trigger: 'blur' },
+      { validator: rule.validatorKey, trigger: 'blur' },
+      { validator: validateRoleCode, trigger: 'blur' }
     ],
     'search': true
   }, {
@@ -58,7 +58,7 @@ export const tableOption = {
     row: true,
     minRows: 2,
     rules: [
-      {max: 128, message: '长度在 128 个字符内', trigger: 'blur'}
+      { max: 128, message: '长度在 128 个字符内', trigger: 'blur' }
     ]
   }, {
     width: 120,
@@ -67,7 +67,7 @@ export const tableOption = {
     type: 'select',
     span: 24,
     rules: [
-      {required: true, message: '请选择数据权限类型', trigger: 'blur'}
+      { required: true, message: '请选择数据权限类型', trigger: 'blur' }
     ],
     dicData: [{
       label: '全部',

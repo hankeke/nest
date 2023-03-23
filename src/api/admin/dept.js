@@ -1,4 +1,4 @@
-import {cloud} from "@/api/cloud"
+import { cloud } from "@/api/cloud"
 
 const DB = cloud.database()
 const DB_NAME = {
@@ -7,7 +7,7 @@ const DB_NAME = {
 
 export async function fetchTree(query) {
   console.debug('Dept[fetchTree] request param')
-  const {data, ok} = await DB.collection(DB_NAME.SYS_DEPT)
+  const { data, ok } = await DB.collection(DB_NAME.SYS_DEPT)
     .where({})
     .orderBy('sortOrder', 'asc')
     .get()
@@ -25,7 +25,7 @@ export async function addObj(obj) {
   const o = {
     ...obj,
     updateTime: Date.now(),
-    createTime: new Date()
+    createTime: Date.now()
   }
   const res = await DB.collection(DB_NAME.SYS_DEPT)
     .add(o)

@@ -1,11 +1,12 @@
 import request from '@/router/axios'
-import {cloud} from "@/api/cloud"
+import { cloud } from "@/api/cloud"
 
 const DB = cloud.database()
 const DB_NAME = {
   SYS_ROLE: 'sys_role',
   SYS_MENU: 'sys_menu',
-  SYS_ROLE_MENU: 'sys_role_menu'
+  SYS_ROLE_MENU: 'sys_role_menu',
+  SYS_USER_ROLE: 'sys_user_role'
 }
 
 export async function roleList() {
@@ -17,14 +18,14 @@ export async function roleList() {
 
 export async function fetchList(query) {
   console.debug('Role[fetchList] request param query->', query)
-  const {current, size} = query
+  const { current, size } = query
   const res = await DB
     .collection(DB_NAME.SYS_ROLE)
     .where({})
     .skip(size * (current - 1))
     .limit(size)
     .get()
-  const {total} = await DB.collection(DB_NAME.SYS_ROLE)
+  const { total } = await DB.collection(DB_NAME.SYS_ROLE)
     .where({})
     .count()
   console.debug('分页查询结果: ', res.data)
@@ -46,23 +47,22 @@ export function deptRoleList() {
 
 export async function getObj(id) {
   return await DB.collection(DB_NAME.SYS_ROLE)
-    .where({_id: id})
+    .where({ _id: id })
     .getOne()
 }
 
-export function getObjByCode(code) {
-  return request({
-    url: '/admin/role/code/' + code,
-    method: 'get'
-  })
+export async function getObjByCode(code) {
+  return await DB.collection(DB_NAME.SYS_ROLE)
+    .where({ roleCode: code })
+    .getOne()
 }
 
 export async function addObj(obj) {
   console.debug('Role[addObj] request param query->', obj)
   const o = {
     ...obj,
-    createTime: new Date(),
-    updateTime: new Date(),
+    createTime: Date.now(),
+    updateTime: Date.now(),
     delFlag: '0'
   }
   const r = await DB.collection(DB_NAME.SYS_ROLE).add(o)
@@ -72,63 +72,77 @@ export async function addObj(obj) {
 export async function putObj(obj) {
   console.debug('Role[putObj] request param query->', obj)
   const id = obj._id
-  const o = {
+  const data = {
     ...obj,
     _id: undefined,
-    updateTime: new Date(),
+    updateTime: Date.now(),
     delFlag: '0'
   }
-  delete o._id
+  delete data.$index
+  delete data.$cellEdit
+  delete data.$dsType
+  console.debug('Role[putObj] data->', data)
+  delete data._id
   const r = await DB.collection(DB_NAME.SYS_ROLE)
     .doc(id)
-    .update(o)
+    .update(data)
   console.debug('Role[putObj] result->', r)
 }
 
-export function delObj(id) {
-  return request({
-    url: '/admin/role/' + id,
-    method: 'delete'
-  })
+export async function delObj(id) {
+  console.log('Role[delObj] request param ID->', id)
+  // remove roleMenu
+  await DB.collection(DB_NAME.SYS_ROLE_MENU)
+    .where({ roleId: id })
+    .remove({ multi: true })
+  // remove userRole
+  await DB.collection(DB_NAME.SYS_USER_ROLE)
+    .where({ roleId: id })
+    .remove({ multi: true })
+
+  // remove role
+  const res = await DB.collection(DB_NAME.SYS_ROLE).where({
+    _id: id
+  }).remove()
+
+  console.log('Role[delObj] response result->', res)
+  return res
 }
 
 export async function permissionUpd(roleId, menuIds) {
   const role = DB.collection(DB_NAME.SYS_ROLE)
-    .where({_id: roleId})
+    .where({ _id: roleId })
     .getOne()
   if (!role) {
     throw new Error("[role not found roleId]" + roleId)
   }
-  const {ok, error} = await DB.collection(DB_NAME.SYS_ROLE_MENU)
-    .where({roleId: roleId})
-    .remove({multi: true})
+  const { ok, error } = await DB.collection(DB_NAME.SYS_ROLE_MENU)
+    .where({ roleId: roleId })
+    .remove({ multi: true })
   if (!ok) {
     throw new Error("[remove menus by role error]" + error)
   }
   const roleMenus = menuIds.split(",").map((menuId) => {
-    return {roleId, menuId}
+    return { roleId, menuId }
   })
-  for (const roleMenu of roleMenus) {
-    console.debug(roleMenu,'?????')
-    await DB.collection(DB_NAME.SYS_ROLE_MENU)
-      .add(roleMenu)
-  }
+  await DB.collection(DB_NAME.SYS_ROLE_MENU)
+    .add(roleMenus, { multi: true })
 }
 
 export async function fetchMenuIdsByRoleId(roleId) {
-  const role = DB.collection(DB_NAME.SYS_ROLE).where({_id: roleId}).getOne()
+  const role = DB.collection(DB_NAME.SYS_ROLE).where({ _id: roleId }).getOne()
   if (!role) {
     throw new Error("role not found")
   }
   const cmd = DB.command
-  const {data: rolePermissions} = await DB.collection(DB_NAME.SYS_ROLE_MENU)
-    .where({roleId: roleId})
+  const { data: rolePermissions } = await DB.collection(DB_NAME.SYS_ROLE_MENU)
+    .where({ roleId: roleId })
     .get()
   const menuIds = rolePermissions.map((menu) => {
     return menu.menuId
   })
-  const {data, ok} = await DB.collection(DB_NAME.SYS_MENU)
-    .where({_id: cmd.in(menuIds)})
+  const { data, ok } = await DB.collection(DB_NAME.SYS_MENU)
+    .where({ _id: cmd.in(menuIds) })
     .get()
   if (data.length === 0) {
     return []
