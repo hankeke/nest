@@ -92,18 +92,30 @@ export function delObj(id) {
   })
 }
 
-export function permissionUpd(roleId, menuIds) {
-  return request({
-    url: '/admin/role/menu',
-    method: 'put',
-    data: {
-      roleId: roleId,
-      menuIds: menuIds
-    }
+export async function permissionUpd(roleId, menuIds) {
+  const role = DB.collection(DB_NAME.SYS_ROLE)
+    .where({_id: roleId})
+    .getOne()
+  if (!role) {
+    throw new Error("[role not found roleId]" + roleId)
+  }
+  const {ok, error} = await DB.collection(DB_NAME.SYS_ROLE_MENU)
+    .where({roleId: roleId})
+    .remove({multi: true})
+  if (!ok) {
+    throw new Error("[remove menus by role error]" + error)
+  }
+  const roleMenus = menuIds.split(",").map((menuId) => {
+    return {roleId, menuId}
   })
+  for (const roleMenu of roleMenus) {
+    console.debug(roleMenu,'?????')
+    await DB.collection(DB_NAME.SYS_ROLE_MENU)
+      .add(roleMenu)
+  }
 }
 
-export async function fetchRoleTree(roleId) {
+export async function fetchMenuIdsByRoleId(roleId) {
   const role = DB.collection(DB_NAME.SYS_ROLE).where({_id: roleId}).getOne()
   if (!role) {
     throw new Error("role not found")
@@ -113,35 +125,17 @@ export async function fetchRoleTree(roleId) {
     .where({roleId: roleId})
     .get()
   const menuIds = rolePermissions.map((menu) => {
-    return menu._id
+    return menu.menuId
   })
   const {data, ok} = await DB.collection(DB_NAME.SYS_MENU)
     .where({_id: cmd.in(menuIds)})
     .get()
-  const tree = buildTree(data)
-  const res = {
-    data: tree,
+  if (data.length === 0) {
+    return []
+  }
+  const r = {
+    data: data.map(item => item._id),
     success: ok
   }
-  return res
-}
-
-
-function buildTree(permissions) {
-  const tree = []
-  for (let i = 0; i < permissions.length; i++) {
-    const arr = []
-    for (let j = 0; j < permissions.length; j++) {
-      if (permissions[i]._id === permissions[j].parentId) {
-        permissions[i].children = arr
-        arr.push(permissions[j])
-      }
-    }
-  }
-  for (let i = 0; i < permissions.length; i++) {
-    if (permissions[i].parentId === '-1') {
-      tree.push(permissions[i])
-    }
-  }
-  return tree
+  return r
 }

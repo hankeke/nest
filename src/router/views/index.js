@@ -28,13 +28,5 @@ export default [{
     component: () =>
       import(/* webpackChunkName: "views" */ '@/views/gen/dynamic')
   }]
-}, {
-  path: '/admin',
-  component: Layout,
-  children: [{
-    path: '/admin/tenantmenu/index',
-    component: () =>
-      import(/* webpackChunkName: "views" */ '@/views/admin/tenantmenu/index')
-  }]
 }
 ]

@@ -27,18 +27,8 @@ export async function getTopMenu() {
 }
 
 /**
- * 查询当前用户菜单信息
- * @param params
- * @returns {Promise<*>}
- */
-export async function fetchMenuTree(params) {
-  return await cloud.invokeFunction('sys-user-menu-list', params)
-}
-
-/**
  * 生成菜单树
  * @param params
- * @returns {Promise<*[]>}
  */
 export async function list() {
   console.debug('Menu[list] request param')
@@ -46,13 +36,19 @@ export async function list() {
     .where({})
     .orderBy('sortOrder', 'asc')
     .get()
-  console.debug('Menu[list] res->', data)
+  if (data.length === 0) {
+    return {
+      data: [],
+      success: ok
+    }
+  }
   const tree = buildTree(data)
-  const r = {
+  const res = {
     data: tree,
     success: ok
   }
-  return r
+  console.debug('生成菜单树 Menu[list] res->', res)
+  return res
 }
 
 export async function addObj(obj) {

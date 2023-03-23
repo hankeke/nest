@@ -111,7 +111,7 @@
           :props="defaultProps"
           :filter-node-method="filterNode"
           class="filter-tree"
-          node-key="id"
+          node-key="_id"
           highlight-current
           show-checkbox
           default-expand-all/>
@@ -135,10 +135,10 @@
 </template>
 
 <script>
-import {addObj, delObj, fetchList, fetchRoleTree, permissionUpd, putObj} from '@/api/admin/role'
+import {addObj, delObj, fetchList, fetchMenuIdsByRoleId, permissionUpd, putObj} from '@/api/admin/role'
 import {tableOption} from '@/const/crud/admin/role'
 import {fetchTree} from '@/api/admin/dept'
-import {fetchMenuTree} from '@/api/admin/menu'
+import {list} from '@/api/admin/menu'
 import {mapGetters} from 'vuex'
 import ExcelUpload from '@/components/upload/excel'
 
@@ -155,7 +155,7 @@ export default {
       checkedDsScope: [],
       defaultProps: {
         label: 'name',
-        value: 'id'
+        value: '_id'
       },
       page: {
         total: 0, // 总页数
@@ -244,11 +244,11 @@ export default {
       this.dialogPermissionVisible = false
     },
     handlePermission(row) {
-      fetchRoleTree(row._id)
+      fetchMenuIdsByRoleId(row._id)
         .then(response => {
-          const {data} = response
-          this.checkedKeys = data
-          return fetchMenuTree()
+          const {data: keys} = response
+          this.checkedKeys = keys
+          return list()
         })
         .then(response => {
           const {data} = response
@@ -274,18 +274,21 @@ export default {
         if (item.children && item.children.length !== 0) {
           this.resolveAllEunuchNodeId(item.children, idArr, temp)
         } else {
-          temp.push(idArr.filter(id => id === item.id))
+          temp.push(idArr.filter(_id => _id === item._id))
         }
       }
       return temp
-    },
+    }
+    ,
     filterNode(value, data) {
       if (!value) return true
-      return data.label.indexOf(value) !== -1
-    },
+      return data.label.indexOf(value) !== '-1'
+    }
+    ,
     getNodeData(data, done) {
       done()
-    },
+    }
+    ,
     handleDelete(row, index) {
       this.$confirm('是否确认删除名称为"' + row.roleName + '"' + '"的数据项?', '警告', {
         confirmButtonText: '确定',
@@ -297,7 +300,8 @@ export default {
         this.getList(this.page)
         this.$notify.success('删除成功')
       })
-    },
+    }
+    ,
     create(row, done, loading) {
       if (this.form.dsType === 1) {
         this.form.dsScope = this.$refs.scopeTree.getCheckedKeys().join(',')
@@ -309,7 +313,8 @@ export default {
       }).catch(() => {
         loading()
       })
-    },
+    }
+    ,
     update(row, index, done, loading) {
       if (this.form.dsType === 1) {
         this.form.dsScope = this.$refs.scopeTree.getCheckedKeys().join(',')
@@ -321,7 +326,8 @@ export default {
       }).catch(() => {
         loading()
       })
-    },
+    }
+    ,
     updatePermission(roleId) {
       this.menuIds = ''
       this.menuIds = this.$refs.menuTree.getCheckedKeys().join(',').concat(',').concat(this.$refs.menuTree.getHalfCheckedKeys().join(','))
