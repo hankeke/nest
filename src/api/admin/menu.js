@@ -87,12 +87,13 @@ export async function putObj(obj) {
   const data = {
     ...obj,
     updateTime: Date.now(),
-    _id: undefined,
-  };
+    _id: undefined
+  }
   // 不可更新主键
-  delete data._id;
+  delete data._id
   const res = await DB.collection(DB_NAME.SYS_MENU)
-    .doc(id).update(data)
+    .doc(id)
+    .update(data)
   console.debug('Menu[putObj] result->', res)
   return res
 }

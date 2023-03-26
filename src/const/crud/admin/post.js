@@ -48,8 +48,10 @@ export const tableOption = {
       'type': 'input',
       'label': '创建时间',
       'prop': 'createTime',
+      format: 'yyyy-MM-dd HH:mm',
+      valueFormat: 'yyyy-MM-dd HH:mm:ss',
       'addDisplay': false,
-      'editDisabled': true,
+      'editDisplay': false,
       span: 24
     }
   ]

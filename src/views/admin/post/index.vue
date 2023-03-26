@@ -45,15 +45,6 @@
           </el-button>
         </template>
       </avue-crud>
-      <!--excel 模板导入 -->
-      <excel-upload
-        ref="excelUpload"
-        title="岗位信息导入"
-        url="/admin/post/import"
-        temp-name="岗位信息.xlsx"
-        temp-url="/admin/sys-file/local/file/post.xlsx"
-        @refreshDataList="handleRefreshChange"
-      ></excel-upload>
     </basic-container>
   </div>
 </template>
@@ -62,11 +53,10 @@
 import {addObj, delObj, fetchList, putObj} from '@/api/admin/post'
 import {tableOption} from '@/const/crud/admin/post'
 import {mapGetters} from 'vuex'
-import ExcelUpload from '@/components/upload/excel'
 
 export default {
   name: 'post',
-  components: {ExcelUpload},
+  components: {},
   data() {
     return {
       searchForm: {},
@@ -101,8 +91,9 @@ export default {
         current: page.currentPage,
         size: page.pageSize
       }, params, this.searchForm)).then(response => {
-        this.tableData = response.data.data.records
-        this.page.total = response.data.data.total
+        const {data,total} = response
+        this.tableData = data
+        this.page.total = total
         this.tableLoading = false
       }).catch(() => {
         this.tableLoading = false
@@ -115,7 +106,7 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(function () {
-        return delObj(row.postId)
+        return delObj(row._id)
       }).then(data => {
         this.$message.success('删除成功')
         this.getList(this.page)
@@ -159,10 +150,6 @@ export default {
     // 刷新事件
     refreshChange() {
       this.getList(this.page)
-    },
-    //  导出excel
-    exportExcel() {
-      this.downBlobFile('/admin/post/export', this.searchForm, 'post.xlsx')
     }
   }
 }
