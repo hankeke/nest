@@ -1,6 +1,5 @@
 import request from '@/router/axios'
 import { cloud } from "@/api/cloud"
-import user from '@/store/modules/user'
 
 const DB = cloud.database()
 const DB_NAME = {
@@ -17,14 +16,14 @@ const DB_NAME = {
 export async function fetchList(query) {
   console.debug('User[fetchList] request param query->', query)
   const { current, size, username, deptId } = query
-  const q = {}
+  const qo = {}
   if (username) {
-    q.username = username
+    qo.username = username
   }
   if (deptId) {
-    q.deptId = deptId
+    qo.deptId = deptId
   }
-  const res = await DB
+  const { data: users, ok } = await DB
     .collection(DB_NAME.SYS_USER)
     .withOne({
       query: DB.collection(DB_NAME.SYS_DEPT),
@@ -32,17 +31,24 @@ export async function fetchList(query) {
       foreignField: "_id",
       as: "dept"
     })
-    .where(q)
+    .where(qo)
     .skip(size * (current - 1))
     .limit(size)
     .get()
+  if (!users && users.length === 0) {
+    return {
+      data: [],
+      success: ok,
+      total: 0
+    }
+  }
   const { total } = await DB.collection(DB_NAME.SYS_USER)
-    .where(q)
+    .where(qo)
     .count()
-   
+  
   const r = {
-    data: res.data,
-    success: res.ok,
+    data: users,
+    success: ok,
     total
   }
   console.debug('User[fetchList] result->', r)
