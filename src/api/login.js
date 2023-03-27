@@ -15,5 +15,5 @@ export const getUserInfo = async() => {
 }
 
 export const logout = async() => {
-  return await { "code": 0, "msg": 'success', "data": true }
+  return { "code": 0, "msg": 'success', "data": true }
 }

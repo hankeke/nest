@@ -1,5 +1,6 @@
 import request from '@/router/axios'
 import { cloud } from "@/api/cloud"
+import user from '@/store/modules/user'
 
 const DB = cloud.database()
 const DB_NAME = {
@@ -7,13 +8,23 @@ const DB_NAME = {
   SYS_ROLE: 'sys_role',
   SYS_MENU: 'sys_menu',
   SYS_DEPT: 'sys_dept',
+  SYS_POST: 'sys_post',
   SYS_ROLE_MENU: 'sys_role_menu',
-  SYS_USER_ROLE: 'sys_user_role'
+  SYS_USER_ROLE: 'sys_user_role',
+  SYS_USER_POST: 'sys_user_post'
 }
 
 export async function fetchList(query) {
-  const { current, size } = query
-  const { data } = await DB
+  console.debug('User[fetchList] request param query->', query)
+  const { current, size, username, deptId } = query
+  const q = {}
+  if (username) {
+    q.username = username
+  }
+  if (deptId) {
+    q.deptId = deptId
+  }
+  const res = await DB
     .collection(DB_NAME.SYS_USER)
     .withOne({
       query: DB.collection(DB_NAME.SYS_DEPT),
@@ -21,13 +32,21 @@ export async function fetchList(query) {
       foreignField: "_id",
       as: "dept"
     })
-    .where({})
+    .where(q)
     .skip(size * (current - 1))
     .limit(size)
     .get()
-
-  console.log('res', data)
-
+  const { total } = await DB.collection(DB_NAME.SYS_USER)
+    .where(q)
+    .count()
+   
+  const r = {
+    data: res.data,
+    success: res.ok,
+    total
+  }
+  console.debug('User[fetchList] result->', r)
+  return r
 }
 
 export function addObj(obj) {

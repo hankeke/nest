@@ -204,17 +204,20 @@ export default {
           this.searchForm
         )
       ).then(response => {
-        this.list = response.data.data.records
-        this.page.total = response.data.data.total
+        const { data, total } = response
+        this.list = data
+        this.page.total = total
         this.listLoading = false
       })
     },
     getNodeData() {
       deptRoleList().then(response => {
-        this.rolesOptions = response.data.data
+        const { data } = response
+        this.rolesOptions = data
       })
       listPosts().then(response => {
-        this.postOptions = response.data.data
+        const { data } = response
+        this.postOptions = data
       })
     },
     searchChange(param, done) {
@@ -236,11 +239,13 @@ export default {
       window.boxType = type
       // 查询部门树
       fetchTree().then(response => {
-        this.treeDeptData = response.data.data
+        const { data } = response
+        this.treeDeptData = data
       })
       // 查询角色列表
       deptRoleList().then(response => {
-        this.rolesOptions = response.data.data
+        const { data } = response
+        this.rolesOptions = data
       })
       // 查询岗位列表
       listPosts().then(response => {
@@ -309,7 +314,7 @@ export default {
           type: 'warning'
         }
       ).then(() => {
-        delObj(row.userId)
+        delObj(row._)
           .then(() => {
             this.list.splice(index, 1)
             this.$notify.success('删除成功')
