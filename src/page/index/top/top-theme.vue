@@ -29,8 +29,8 @@
 </template>
 
 <script>
-import {setTheme} from '@/util'
-import {mapGetters} from 'vuex'
+import { setTheme } from '@/util'
+import { mapGetters } from 'vuex'
 
 export default {
   data() {
@@ -69,7 +69,7 @@ export default {
     ...mapGetters(['themeName'])
   },
   watch: {
-    text: function (val) {
+    text: function(val) {
       this.$store.commit('SET_THEME_NAME', val)
       setTheme(val)
     }

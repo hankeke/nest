@@ -38,7 +38,7 @@
 </template>
 
 <script>
-import {mapGetters} from 'vuex'
+import { mapGetters } from 'vuex'
 import option from '@/const/logs/index'
 
 export default {

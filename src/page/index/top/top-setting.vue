@@ -27,9 +27,9 @@
 </template>
 
 <script>
-import {mapGetters, mapState} from 'vuex'
-import {list, option} from '@/const/setting/'
-import {validatenull} from '@/util/validate'
+import { mapGetters, mapState } from 'vuex'
+import { list, option } from '@/const/setting/'
+import { validatenull } from '@/util/validate'
 
 export default {
   data() {

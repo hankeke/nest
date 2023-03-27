@@ -63,9 +63,9 @@
 </template>
 
 <script>
-import {addItemObj, addObj, delItemObj, delObj, fetchItemList, fetchList, putItemObj, putObj, refreshCache} from '@/api/admin/dict'
-import {tableDictItemOption, tableOption} from '@/const/crud/admin/dict'
-import {mapGetters} from 'vuex'
+import { addItemObj, addObj, delItemObj, delObj, fetchItemList, fetchList, putItemObj, putObj, refreshCache } from '@/api/admin/dict'
+import { tableDictItemOption, tableOption } from '@/const/crud/admin/dict'
+import { mapGetters } from 'vuex'
 
 export default {
   name: 'Dict',
@@ -120,28 +120,28 @@ export default {
         this.tableLoading = false
       })
     },
-    rowDel: function (row) {
+    rowDel: function(row) {
       console.log(row)
       this.$confirm('是否确认删除数据类型为"' + row.dictType + '"的数据项?', '警告', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
-      }).then(function () {
+      }).then(function() {
         return delObj(row)
       }).then(() => {
         this.getList(this.page)
         this.$message.success('删除成功')
-      }).catch(function () {
+      }).catch(function() {
       })
     },
-    handleUpdate: function (row, index, done) {
+    handleUpdate: function(row, index, done) {
       putObj(row).then(() => {
         this.$message.success('修改成功')
         this.getList(this.page)
         done()
       })
     },
-    handleSave: function (row, done) {
+    handleSave: function(row, done) {
       addObj(row).then(() => {
         this.$message.success('添加成功')
         this.getList(this.page)
@@ -165,11 +165,11 @@ export default {
       this.page.currentPage = current
     },
     //======字典项表格相关=====
-    dictItemVisible: function () {
+    dictItemVisible: function() {
       this.dialogFormVisible = false
       this.itemPage.currentPage = 1
     },
-    handleItem: function (row) {
+    handleItem: function(row) {
       this.dictId = row.id
       this.dictType = row.dictType
       this.getDictItemList()
@@ -179,7 +179,7 @@ export default {
       fetchItemList(Object.assign({
         current: this.itemPage.currentPage,
         size: this.itemPage.pageSize
-      }, {dictId: this.dictId})).then(response => {
+      }, { dictId: this.dictId })).then(response => {
         this.tableDictItemData = response.data.data.records
         this.itemPage.total = response.data.data.total
       })
@@ -189,14 +189,14 @@ export default {
       this.form.dictId = this.dictId
       done()
     },
-    handleItemSave: function (row, done) {
+    handleItemSave: function(row, done) {
       addItemObj(row).then(() => {
         this.$message.success('添加成功')
         this.getDictItemList()
         done()
       })
     },
-    handleItemUpdate: function (row, index, done) {
+    handleItemUpdate: function(row, index, done) {
       putItemObj(row).then(() => {
         this.$message.success('修改成功')
         this.getDictItemList()
@@ -211,23 +211,23 @@ export default {
       this.itemPage.currentPage = current
       this.getDictItemList()
     },
-    rowItemDel: function (row) {
+    rowItemDel: function(row) {
       this.$confirm('是否确认删除数据为"' + row.label + '"的数据项?', '警告', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
-      }).then(function () {
+      }).then(function() {
         return delItemObj(row.id)
       }).then(() => {
         this.getDictItemList()
         this.$message.success('删除成功')
-      }).catch(function () {
+      }).catch(function() {
       })
     },
-    handleRefreshCache: function () {
+    handleRefreshCache: function() {
       refreshCache().then(() => {
         this.$message.success('同步成功')
-      }).catch(function () {
+      }).catch(function() {
       })
     }
   }

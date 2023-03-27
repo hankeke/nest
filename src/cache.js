@@ -2,7 +2,7 @@ import Vue from 'vue'
 import store from './store'
 
 Vue.mixin({
-  beforeRouteEnter: function (to, from, next) {
+  beforeRouteEnter: function(to, from, next) {
     next(() => {
       const avueView = document.getElementById('avue-view')
       if (avueView && to.meta.savedPosition) {
@@ -10,7 +10,7 @@ Vue.mixin({
       }
     })
   },
-  beforeRouteLeave: function (to, from, next) {
+  beforeRouteLeave: function(to, from, next) {
     const avueView = document.getElementById('avue-view')
     if (from && from.meta.keepAlive) {
       if (avueView) {

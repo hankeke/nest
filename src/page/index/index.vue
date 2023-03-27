@@ -38,11 +38,11 @@
 </template>
 
 <script>
-import {mapGetters} from 'vuex'
+import { mapGetters } from 'vuex'
 import tags from './tags'
 import top from './top/'
 import sidebar from './sidebar/'
-import {calcScreen} from '@/util'
+import { calcScreen } from '@/util'
 
 
 export default {
@@ -55,7 +55,7 @@ export default {
   components: {
     top,
     tags,
-    sidebar,
+    sidebar
   },
   data() {
     return {}
@@ -73,7 +73,7 @@ export default {
       this.$store.commit('SET_COLLAPSE')
     },
     openMenu(item = {}) {
-      this.$store.dispatch('GetMenu', {type: true, id: item._id}).then(data => {
+      this.$store.dispatch('GetMenu', { type: true, id: item._id }).then(data => {
         if (data.length !== 0) {
           this.$router.$avueRouter.formatRoutes(data, true)
         }
@@ -87,7 +87,7 @@ export default {
           this.$store.commit('SET_SCREEN', calcScreen())
         }, 0)
       }
-    },
+    }
   }
 }
 </script>

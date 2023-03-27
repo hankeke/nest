@@ -101,8 +101,8 @@
   </div>
 </template>
 <script>
-import {mapGetters, mapState} from 'vuex'
-import {fullscreenToggel, handleImg, listenfullscreen} from '@/util'
+import { mapGetters, mapState } from 'vuex'
+import { fullscreenToggel, handleImg, listenfullscreen } from '@/util'
 import topLock from './top-lock'
 import topMenu from './top-menu'
 import topTheme from './top-theme'
@@ -166,7 +166,7 @@ export default {
         type: 'warning'
       }).then(() => {
         this.$store.dispatch('LogOut').then(() => {
-          this.$router.push({path: '/login'})
+          this.$router.push({ path: '/login' })
         })
       })
     }

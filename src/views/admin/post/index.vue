@@ -50,9 +50,9 @@
 </template>
 
 <script>
-import {addObj, delObj, fetchList, putObj} from '@/api/admin/post'
-import {tableOption} from '@/const/crud/admin/post'
-import {mapGetters} from 'vuex'
+import { addObj, delObj, fetchList, putObj } from '@/api/admin/post'
+import { tableOption } from '@/const/crud/admin/post'
+import { mapGetters } from 'vuex'
 
 export default {
   name: 'post',
@@ -91,7 +91,7 @@ export default {
         current: page.currentPage,
         size: page.pageSize
       }, params, this.searchForm)).then(response => {
-        const {data,total} = response
+        const { data, total } = response
         this.tableData = data
         this.page.total = total
         this.tableLoading = false
@@ -100,12 +100,12 @@ export default {
       })
     },
     // 删除
-    handleDel: function (row, index) {
+    handleDel: function(row, index) {
       this.$confirm('是否确认删除' + row.postName, '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
-      }).then(function () {
+      }).then(function() {
         return delObj(row._id)
       }).then(data => {
         this.$message.success('删除成功')
@@ -113,7 +113,7 @@ export default {
       })
     },
     // 更新
-    handleUpdate: function (row, index, done, loading) {
+    handleUpdate: function(row, index, done, loading) {
       putObj(row).then(data => {
         this.$message.success('修改成功')
         done()
@@ -123,7 +123,7 @@ export default {
       })
     },
     // 保存
-    handleSave: function (row, done, loading) {
+    handleSave: function(row, done, loading) {
       addObj(row).then(data => {
         this.$message.success('添加成功')
         done()

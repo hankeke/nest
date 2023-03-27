@@ -1,11 +1,33 @@
 import request from '@/router/axios'
+import { cloud } from "@/api/cloud"
 
-export function fetchList(query) {
-  return request({
-    url: '/admin/user/page',
-    method: 'get',
-    params: query
-  })
+const DB = cloud.database()
+const DB_NAME = {
+  SYS_USER: 'sys_user',
+  SYS_ROLE: 'sys_role',
+  SYS_MENU: 'sys_menu',
+  SYS_DEPT: 'sys_dept',
+  SYS_ROLE_MENU: 'sys_role_menu',
+  SYS_USER_ROLE: 'sys_user_role'
+}
+
+export async function fetchList(query) {
+  const { current, size } = query
+  const { data } = await DB
+    .collection(DB_NAME.SYS_USER)
+    .withOne({
+      query: DB.collection(DB_NAME.SYS_DEPT),
+      localField: "deptId",
+      foreignField: "_id",
+      as: "dept"
+    })
+    .where({})
+    .skip(size * (current - 1))
+    .limit(size)
+    .get()
+
+  console.log('res', data)
+
 }
 
 export function addObj(obj) {

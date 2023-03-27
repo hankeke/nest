@@ -102,7 +102,7 @@ export default {
     }
   },
   computed: {
-    headers: function () {
+    headers: function() {
       const tenantId = store.getters.userInfo.tenantId
       return {
         'Authorization': 'Bearer ' + store.getters.access_token,

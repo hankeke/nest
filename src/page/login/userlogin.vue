@@ -44,7 +44,7 @@
 </template>
 
 <script>
-import {mapGetters} from 'vuex'
+import { mapGetters } from 'vuex'
 
 export default {
   name: 'Userlogin',
@@ -66,14 +66,14 @@ export default {
       },
       loginRules: {
         username: [
-          {required: true, message: '请输入用户名', trigger: 'blur'},
+          { required: true, message: '请输入用户名', trigger: 'blur' },
           {
             pattern: /^([a-z\u4e00-\u9fa5\d]*?)$/, message: '请输入小写字母', trigger: 'blur'
           }
         ],
         password: [
-          {required: true, message: '请输入密码', trigger: 'blur'},
-          {min: 6, message: '密码长度最少为6位', trigger: 'blur'}
+          { required: true, message: '请输入密码', trigger: 'blur' },
+          { min: 6, message: '密码长度最少为6位', trigger: 'blur' }
         ]
       },
       passwordType: 'password'
@@ -93,7 +93,7 @@ export default {
     },
     loginByUsername() {
       this.$store.dispatch('LoginByUsername', Object.assign({}, this.loginForm)).then(() => {
-        this.$router.push({path: this.tagWel.value})
+        this.$router.push({ path: this.tagWel.value })
       })
     }
   }

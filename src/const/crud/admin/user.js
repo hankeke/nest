@@ -1,4 +1,4 @@
-import {getDetails, getDetailsByPhone} from '@/api/admin/user'
+import { getDetails, getDetailsByPhone } from '@/api/admin/user'
 
 
 var validateUsername = (rule, value, callback) => {
@@ -67,7 +67,7 @@ export const tableOption = {
         message: '长度在 3 到 20 个字符',
         trigger: 'blur'
       },
-      {validator: validateUsername, trigger: 'blur'}
+      { validator: validateUsername, trigger: 'blur' }
     ]
   }, {
     label: '密码',
@@ -106,7 +106,7 @@ export const tableOption = {
       message: '长度在 11 个字符',
       trigger: 'blur'
     },
-      {validator: validatePhone, trigger: 'blur'}
+      { validator: validatePhone, trigger: 'blur' }
     ]
   }, {
     label: '所属部门',

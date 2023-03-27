@@ -17,12 +17,12 @@
 </template>
 
 <script>
-import {mapGetters} from 'vuex'
+import { mapGetters } from 'vuex'
 import logs from '@/page/logs/index'
 
 export default {
   name: 'TopLogs',
-  components: {logs},
+  components: { logs },
   data() {
     return {
       box: false

@@ -1,4 +1,4 @@
-import {getObj} from '@/api/admin/client'
+import { getObj } from '@/api/admin/client'
 
 const DIC = {
   vaild: [{
@@ -44,7 +44,7 @@ export const tableOption = {
       required: true,
       message: '请输入clientId',
       trigger: 'blur'
-    }, {validator: validateClient, trigger: 'blur'}]
+    }, { validator: validateClient, trigger: 'blur' }]
   }, {
     label: '密钥',
     prop: 'clientSecret',

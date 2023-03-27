@@ -33,13 +33,13 @@
 </template>
 
 <script>
-import {addObj, fetchTree, getObj, putObj} from '@/api/admin/dept'
+import { addObj, fetchTree, getObj, putObj } from '@/api/admin/dept'
 import Treeselect from '@riophae/vue-treeselect'
 import '@riophae/vue-treeselect/dist/vue-treeselect.css'
 
 export default {
   name: 'DeptForm',
-  components: {Treeselect},
+  components: { Treeselect },
   data() {
     return {
       // 遮罩层
@@ -55,10 +55,10 @@ export default {
       // 表单校验
       rules: {
         name: [
-          {required: true, message: '部门名称不能为空', trigger: 'blur'}
+          { required: true, message: '部门名称不能为空', trigger: 'blur' }
         ],
         sortOrder: [
-          {required: true, message: '部门顺序不能为空', trigger: 'blur'}
+          { required: true, message: '部门顺序不能为空', trigger: 'blur' }
         ]
       }
     }
@@ -108,7 +108,7 @@ export default {
     getTreeselect() {
       fetchTree().then(response => {
         this.deptOptions = []
-        const dept = {_id: "0", name: '根部门', children: response.data}
+        const dept = { _id: "0", name: '根部门', children: response.data }
         this.deptOptions.push(dept)
       })
     },

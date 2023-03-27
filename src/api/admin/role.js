@@ -1,4 +1,3 @@
-import request from '@/router/axios'
 import { cloud } from "@/api/cloud"
 
 const DB = cloud.database()
@@ -38,11 +37,11 @@ export async function fetchList(query) {
   return r
 }
 
-export function deptRoleList() {
-  return request({
-    url: '/admin/role/list',
-    method: 'get'
-  })
+export async function deptRoleList() {
+  console.debug('Role[roleList]')
+  const res = await DB.collection(DB_NAME.SYS_ROLE).get()
+  console.debug('Role[roleList] result->', res)
+  return res
 }
 
 export async function getObj(id) {

@@ -34,9 +34,9 @@
 </template>
 
 <script>
-import {addObj, delObj, fetchList, putObj, refreshCache} from '@/api/admin/client'
-import {tableOption} from '@/const/crud/admin/client'
-import {mapGetters} from 'vuex'
+import { addObj, delObj, fetchList, putObj, refreshCache } from '@/api/admin/client'
+import { tableOption } from '@/const/crud/admin/client'
+import { mapGetters } from 'vuex'
 
 export default {
   name: 'Client',
@@ -79,13 +79,13 @@ export default {
         this.tableLoading = false
       })
     },
-    handleDelete: function (row, index) {
+    handleDelete: function(row, index) {
       this.$confirm('是否确认删除ID为' + row.clientId, '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
       })
-        .then(function () {
+        .then(function() {
           return delObj(row.clientId)
         })
         .then(() => {
@@ -93,7 +93,7 @@ export default {
           this.refreshChange()
         })
     },
-    handleUpdate: function (row, index, done) {
+    handleUpdate: function(row, index, done) {
       if (this.validatenull(row.accessTokenValidity)) {
         row.accessTokenValidity = 60 * 60 * 12
       }
@@ -110,7 +110,7 @@ export default {
         done()
       })
     },
-    handleSave: function (row, done) {
+    handleSave: function(row, done) {
       if (this.validatenull(row.accessTokenValidity)) {
         row.accessTokenValidity = 60 * 60 * 12
       }
@@ -140,10 +140,10 @@ export default {
       window.boxType = type
       show()
     },
-    handleRefreshCache: function () {
+    handleRefreshCache: function() {
       refreshCache().then(() => {
         this.$message.success('同步成功')
-      }).catch(function () {
+      }).catch(function() {
       })
     }
   }

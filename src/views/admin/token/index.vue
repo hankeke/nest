@@ -21,9 +21,9 @@
 </template>
 
 <script>
-import {delObj, fetchList} from '@/api/admin/token'
-import {tableOption} from '@/const/crud/admin/token'
-import {mapGetters} from 'vuex'
+import { delObj, fetchList } from '@/api/admin/token'
+import { tableOption } from '@/const/crud/admin/token'
+import { mapGetters } from 'vuex'
 
 export default {
   name: 'Token',
@@ -64,14 +64,14 @@ export default {
         this.tableLoading = false
       })
     },
-    handleDel: function (row, index) {
+    handleDel: function(row, index) {
       var _this = this
       this.$confirm('是否强制' + row.accessToken + '下线?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
       })
-        .then(function () {
+        .then(function() {
           return delObj(row.accessToken)
         })
         .then(() => {

@@ -1,4 +1,4 @@
-import {validatenull} from './validate'
+import { validatenull } from './validate'
 import request from '@/router/axios'
 import * as CryptoJS from 'crypto-js'
 
@@ -103,8 +103,8 @@ export const setTheme = name => {
  *加密处理
  */
 export const encryption = params => {
-  let {key} = params
-  const {param} = params
+  let { key } = params
+  const { param } = params
   const result = JSON.parse(JSON.stringify(params.data))
   if (params.type === 'Base64') {
     param.forEach(ele => {
@@ -145,16 +145,16 @@ export const listenfullscreen = callback => {
     callback()
   }
 
-  document.addEventListener('fullscreenchange', function () {
+  document.addEventListener('fullscreenchange', function() {
     listen()
   })
-  document.addEventListener('mozfullscreenchange', function () {
+  document.addEventListener('mozfullscreenchange', function() {
     listen()
   })
-  document.addEventListener('webkitfullscreenchange', function () {
+  document.addEventListener('webkitfullscreenchange', function() {
     listen()
   })
-  document.addEventListener('msfullscreenchange', function () {
+  document.addEventListener('msfullscreenchange', function() {
     listen()
   })
 }
@@ -354,7 +354,7 @@ export function handleImg(url, id) {
       const blob = response.data
       const img = document.getElementById(id)
       img.src = URL.createObjectURL(blob)
-      window.setTimeout(function () {
+      window.setTimeout(function() {
         window.URL.revokeObjectURL(blob)
       }, 0)
     })
@@ -385,7 +385,7 @@ export function downBlobFile(url, query, fileName) {
     link.download = fileName
     document.body.appendChild(link)
     link.click()
-    window.setTimeout(function () {
+    window.setTimeout(function() {
       window.URL.revokeObjectURL(blob)
       document.body.removeChild(link)
     }, 0)

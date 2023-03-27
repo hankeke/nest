@@ -10,23 +10,4 @@ export default [{
     component: () =>
       import(/* webpackChunkName: "page" */ '@/views/admin/user/info')
   }]
-}, {
-  path: '/activti',
-  component: Layout,
-  redirect: '/activti/detail',
-  children: [{
-    path: 'detail/:id',
-    component: () =>
-      import(/* webpackChunkName: "views" */ '@/views/activiti/detail')
-  }]
-}, {
-  path: '/gen',
-  component: Layout,
-  redirect: '/gen/dynamic',
-  children: [{
-    path: 'dynamic/:dsName/:tableName',
-    component: () =>
-      import(/* webpackChunkName: "views" */ '@/views/gen/dynamic')
-  }]
-}
-]
+}]

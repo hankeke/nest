@@ -91,13 +91,13 @@
 </template>
 
 <script>
-import {delObj, list} from '@/api/admin/menu'
+import { delObj, list } from '@/api/admin/menu'
 import TableForm from './menu-form'
-import {mapGetters} from 'vuex'
+import { mapGetters } from 'vuex'
 
 export default {
   name: 'Menu',
-  components: {TableForm},
+  components: { TableForm },
   data() {
     return {
       addOrUpdateVisible: false,
@@ -130,7 +130,7 @@ export default {
     getList() {
       this.loading = true
       list().then(response => {
-        const {data} = response;
+        const { data } = response
         this.menuList = data
         this.loading = false
       })
@@ -140,7 +140,7 @@ export default {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
-      }).then(function () {
+      }).then(function() {
         return delObj(row._id)
       }).then(() => {
         this.getList()

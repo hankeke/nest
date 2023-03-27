@@ -16,7 +16,7 @@
 </template>
 
 <script>
-import {mapGetters} from 'vuex'
+import { mapGetters } from 'vuex'
 import NProgress from 'nprogress' // progress bar
 import 'nprogress/nprogress.css' // progress bar style
 export default {
@@ -36,16 +36,16 @@ export default {
     }
   },
   watch: {
-    $route: function () {
+    $route: function() {
       this.load()
     },
-    routerPath: function () {
+    routerPath: function() {
       // 监听routerPath变化，改变src路径
       this.urlPath = this.getUrlPath()
     }
   },
   created() {
-    NProgress.configure({showSpinner: false})
+    NProgress.configure({ showSpinner: false })
   },
   mounted() {
     this.load()
@@ -115,7 +115,7 @@ export default {
         }
       }
     },
-    getUrlPath: function () {
+    getUrlPath: function() {
       // 获取 iframe src 路径
       let url = window.location.href
       url = url.replace('/myiframe', '')

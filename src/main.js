@@ -10,11 +10,11 @@ import './error' // 日志
 import './cache' //页面缓冲
 import router from './router/router'
 import store from './store'
-import {downBlobFile, loadStyle} from './util'
-import {validatenull} from './util/validate'
-import {base64Encrypt} from './util/encryption'
+import { downBlobFile, loadStyle } from './util'
+import { validatenull } from './util/validate'
+import { base64Encrypt } from './util/encryption'
 import * as urls from '@/config/env'
-import {iconfontUrl} from '@/config/env'
+import { iconfontUrl } from '@/config/env'
 import * as filters from './filters' // 全局filter
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'

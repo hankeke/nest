@@ -33,7 +33,7 @@
 </template>
 
 <script>
-import {mapGetters} from 'vuex'
+import { mapGetters } from 'vuex'
 
 export default {
   name: 'top-lock',
@@ -64,7 +64,7 @@ export default {
       }
       this.$store.commit('SET_LOCK')
       setTimeout(() => {
-        this.$router.push({path: '/lock'})
+        this.$router.push({ path: '/lock' })
       }, 100)
     }
   }

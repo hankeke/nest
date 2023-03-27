@@ -1,4 +1,4 @@
-import {validatenull} from '@/util/validate'
+import { validatenull } from '@/util/validate'
 import website from '@/const/website'
 
 const keyName = website.key + '-'
@@ -6,8 +6,8 @@ const keyName = website.key + '-'
  * 存储localStorage
  */
 export const setStore = (params = {}) => {
-  let {name} = params
-  const {content, type} = params
+  let { name } = params
+  const { content, type } = params
   name = keyName + name
   const obj = {
     dataType: typeof (content),
@@ -27,7 +27,7 @@ export const setStore = (params = {}) => {
  */
 
 export const getStore = (params = {}) => {
-  let {name} = params
+  let { name } = params
   name = keyName + name
   let obj = {}
   let content
@@ -57,7 +57,7 @@ export const getStore = (params = {}) => {
  * 删除localStorage
  */
 export const removeStore = (params = {}) => {
-  let {name} = params
+  let { name } = params
   name = keyName + name
   if (params.type) {
     window.sessionStorage.removeItem(name)
@@ -101,7 +101,7 @@ export const getAllStore = (params = {}) => {
  * 清空全部localStorage
  */
 export const clearStore = (params = {}) => {
-  const {type} = params
+  const { type } = params
   if (type) {
     window.sessionStorage.clear()
   } else {

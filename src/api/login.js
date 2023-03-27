@@ -1,8 +1,8 @@
 import qs from 'qs'
-import {cloud} from "@/api/cloud.js"
+import { cloud } from "@/api/cloud.js"
 
-export const loginByUsername = async (username, password) => {
-  const param = qs.parse({username: username, password: password})
+export const loginByUsername = async(username, password) => {
+  const param = qs.parse({ username: username, password: password })
   const res = await cloud.invokeFunction(
     'sys-user-login',
     param
@@ -10,6 +10,10 @@ export const loginByUsername = async (username, password) => {
   return res
 }
 
-export const getUserInfo = async () => {
+export const getUserInfo = async() => {
   return await cloud.invokeFunction('sys-user-info', {})
+}
+
+export const logout = async() => {
+  return await { "code": 0, "msg": 'success', "data": true }
 }

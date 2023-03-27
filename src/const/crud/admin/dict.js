@@ -1,4 +1,4 @@
-import {remote} from '@/api/admin/dict.js'
+import { remote } from '@/api/admin/dict.js'
 
 const validateDict = (rule, value, callback) => {
   remote(value).then(response => {
@@ -34,7 +34,7 @@ export const tableOption = {
       required: true,
       message: '请输入字典类型',
       trigger: 'blur'
-    }, {validator: validateDict, trigger: 'blur'}]
+    }, { validator: validateDict, trigger: 'blur' }]
   }, {
     label: '描述',
     prop: 'description',

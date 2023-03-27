@@ -72,9 +72,9 @@
  * VerifySlide
  * @description 滑块
  * */
-import {aesEncrypt} from './../utils/ase'
-import {resetSize} from './../utils/util'
-import {reqCheck, reqGet} from './../api/index'
+import { aesEncrypt } from './../utils/ase'
+import { resetSize } from './../utils/util'
+import { reqCheck, reqGet } from './../api/index'
 
 //  "captchaType":"blockPuzzle",
 export default {
@@ -183,7 +183,7 @@ export default {
   },
   mounted() {
     // 禁止拖拽
-    this.$el.onselectstart = function () {
+    this.$el.onselectstart = function() {
       return false
     }
   },
@@ -201,39 +201,39 @@ export default {
 
       var _this = this
 
-      window.removeEventListener('touchmove', function (e) {
+      window.removeEventListener('touchmove', function(e) {
         _this.move(e)
       })
-      window.removeEventListener('mousemove', function (e) {
-        _this.move(e)
-      })
-
-      //鼠标松开
-      window.removeEventListener('touchend', function () {
-        _this.end()
-      })
-      window.removeEventListener('mouseup', function () {
-        _this.end()
-      })
-
-      window.addEventListener('touchmove', function (e) {
-        _this.move(e)
-      })
-      window.addEventListener('mousemove', function (e) {
+      window.removeEventListener('mousemove', function(e) {
         _this.move(e)
       })
 
       //鼠标松开
-      window.addEventListener('touchend', function () {
+      window.removeEventListener('touchend', function() {
         _this.end()
       })
-      window.addEventListener('mouseup', function () {
+      window.removeEventListener('mouseup', function() {
+        _this.end()
+      })
+
+      window.addEventListener('touchmove', function(e) {
+        _this.move(e)
+      })
+      window.addEventListener('mousemove', function(e) {
+        _this.move(e)
+      })
+
+      //鼠标松开
+      window.addEventListener('touchend', function() {
+        _this.end()
+      })
+      window.addEventListener('mouseup', function() {
         _this.end()
       })
     },
 
     //鼠标按下
-    start: function (e) {
+    start: function(e) {
       e = e || window.event
       const x = e.touches ? e.touches[0].pageX : e.clientX
       this.startLeft = Math.floor(
@@ -250,7 +250,7 @@ export default {
       }
     },
     //鼠标移动
-    move: function (e) {
+    move: function(e) {
       e = e || window.event
       if (this.status && this.isEnd === false) {
         const x = e.touches ? e.touches[0].pageX : e.clientX
@@ -277,7 +277,7 @@ export default {
     },
 
     //鼠标松开
-    end: function () {
+    end: function() {
       this.endMovetime = +new Date()
       var _this = this
       //判断是否重合
@@ -291,10 +291,10 @@ export default {
           captchaType: this.captchaType,
           pointJson: this.secretKey
             ? aesEncrypt(
-              JSON.stringify({x: moveLeftDistance, y: 5.0}),
+              JSON.stringify({ x: moveLeftDistance, y: 5.0 }),
               this.secretKey
             )
-            : JSON.stringify({x: moveLeftDistance, y: 5.0}),
+            : JSON.stringify({ x: moveLeftDistance, y: 5.0 }),
           token: this.backToken
         }
         reqCheck(data).then((response) => {
@@ -321,16 +321,16 @@ export default {
               ? aesEncrypt(
                 this.backToken +
                 '---' +
-                JSON.stringify({x: moveLeftDistance, y: 5.0}),
+                JSON.stringify({ x: moveLeftDistance, y: 5.0 }),
                 this.secretKey
               )
               : this.backToken +
               '---' +
-              JSON.stringify({x: moveLeftDistance, y: 5.0})
+              JSON.stringify({ x: moveLeftDistance, y: 5.0 })
             setTimeout(() => {
               this.tipWords = ''
               this.$parent.closeBox()
-              this.$parent.$emit('success', {captchaVerification})
+              this.$parent.$emit('success', { captchaVerification })
             }, 1000)
           } else {
             this.moveBlockBackgroundColor = '#d9534f'
@@ -338,7 +338,7 @@ export default {
             this.iconColor = '#fff'
             this.iconClass = 'icon-close'
             this.passFlag = false
-            setTimeout(function () {
+            setTimeout(function() {
               _this.refresh()
             }, 1000)
             this.$parent.$emit('error', this)
@@ -352,7 +352,7 @@ export default {
       }
     },
 
-    refresh: function () {
+    refresh: function() {
       this.showRefresh = true
       this.finishText = ''
 

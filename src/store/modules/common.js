@@ -1,4 +1,4 @@
-import {getStore, removeStore, setStore} from '@/util/store'
+import { getStore, removeStore, setStore } from '@/util/store'
 import website from '@/const/website'
 
 const common = {
@@ -8,19 +8,19 @@ const common = {
     isFullScreen: false,
     isShade: false,
     screen: -1,
-    isLock: getStore({name: 'isLock'}) || false,
-    showTag: getStore({name: 'showTag'}),
-    showDebug: getStore({name: 'showDebug'}),
-    showCollapse: getStore({name: 'showCollapse'}),
-    showSearch: getStore({name: 'showSearch'}),
-    showLock: getStore({name: 'showLock'}),
-    showFullScreen: getStore({name: 'showFullScreen'}),
-    showTheme: getStore({name: 'showTheme'}),
-    showColor: getStore({name: 'showColor'}),
-    showMenu: getStore({name: 'showMenu'}),
-    theme: getStore({name: 'theme'}) || '#409EFF',
-    themeName: getStore({name: 'themeName'}) || 'theme-white',
-    lockPasswd: getStore({name: 'lockPasswd'}) || '',
+    isLock: getStore({ name: 'isLock' }) || false,
+    showTag: getStore({ name: 'showTag' }),
+    showDebug: getStore({ name: 'showDebug' }),
+    showCollapse: getStore({ name: 'showCollapse' }),
+    showSearch: getStore({ name: 'showSearch' }),
+    showLock: getStore({ name: 'showLock' }),
+    showFullScreen: getStore({ name: 'showFullScreen' }),
+    showTheme: getStore({ name: 'showTheme' }),
+    showColor: getStore({ name: 'showColor' }),
+    showMenu: getStore({ name: 'showMenu' }),
+    theme: getStore({ name: 'theme' }) || '#409EFF',
+    themeName: getStore({ name: 'themeName' }) || 'theme-white',
+    lockPasswd: getStore({ name: 'lockPasswd' }) || '',
     website: website,
     likeTopMenuId: undefined
   },
@@ -144,7 +144,7 @@ const common = {
     },
     LIKE_TOP_MENUID: (state, obj) => {
       if (obj.id === undefined) {
-        obj.id = getStore({name: 'LIKE_TOP_MENUID'})
+        obj.id = getStore({ name: 'LIKE_TOP_MENUID' })
       }
 
       state.likeTopMenuId = obj.id

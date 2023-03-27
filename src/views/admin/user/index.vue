@@ -8,18 +8,6 @@
             :data="treeData"
             @node-click="nodeClick"
           >
-            <span slot-scope="{ node, data }" class="el-tree-node__label">
-              <el-tooltip
-                v-if="data.isLock"
-                class="item"
-                effect="dark"
-                content="无数据权限"
-                placement="right-start"
-              >
-                <span>{{ node.label }} <i class="el-icon-lock"></i></span>
-              </el-tooltip>
-              <span v-if="!data.isLock">{{ node.label }}</span>
-            </span>
           </avue-tree>
         </el-col>
         <el-col :xs="24" :sm="24" :md="19" class="user__main">
@@ -49,25 +37,6 @@
                 @click="$refs.crud.rowAdd()"
               >添加
               </el-button>
-              <el-button
-                class="filter-item"
-                plain
-                type="primary"
-                size="small"
-                icon="el-icon-download"
-                @click="exportExcel"
-              >导出
-              </el-button>
-              <el-dropdown>
-                <el-button type="primary" plain>
-                  导入<i class="el-icon-arrow-down el-icon--right"></i>
-                </el-button>
-                <el-dropdown-menu slot="dropdown">
-                  <el-dropdown-item @click.native="$refs.excelUpload.show()">普通导入</el-dropdown-item>
-                  <el-dropdown-item @click.native="$refs.excelDingUserUpload.show()">钉钉用户导入</el-dropdown-item>
-                  <el-dropdown-item @click.native="$refs.excelCpUserUpload.show()">企微用户导入</el-dropdown-item>
-                </el-dropdown-menu>
-              </el-dropdown>
             </template>
             <template slot="username" slot-scope="scope">
               <span>{{ scope.row.username }}</span>
@@ -135,55 +104,32 @@
             </template>
           </avue-crud>
         </el-col>
-        <!--excel 模板导入 -->
-        <excel-upload
-          ref="excelUpload"
-          title="用户信息导入"
-          url="/admin/user/import"
-          temp-url="/admin/sys-file/local/file/user.xlsx"
-          @refreshDataList="refreshChange"
-        ></excel-upload>
-        <excel-upload
-          ref="excelDingUserUpload"
-          title="钉钉用户信息导入"
-          url="/admin/user/importDingUser"
-          @refreshDataList="refreshChange"
-        ></excel-upload>
-        <excel-upload
-          ref="excelCpUserUpload"
-          title="企业微信用户信息导入"
-          url="/admin/user/importCpUser"
-          @refreshDataList="refreshChange"
-        ></excel-upload>
       </el-row>
     </basic-container>
   </div>
 </template>
 
 <script>
-import {listPosts} from '@/api/admin/post'
-import {addObj, delObj, fetchList, putObj} from '@/api/admin/user'
-import {deptRoleList} from '@/api/admin/role'
-import {fetchTree} from '@/api/admin/dept'
-import {tableOption} from '@/const/crud/admin/user'
-import {mapGetters} from 'vuex'
-import ExcelUpload from '@/components/upload/excel'
+import { listPosts } from '@/api/admin/post'
+import { addObj, delObj, fetchList, putObj } from '@/api/admin/user'
+import { deptRoleList } from '@/api/admin/role'
+import { fetchTree } from '@/api/admin/dept'
+import { tableOption } from '@/const/crud/admin/user'
+import { mapGetters } from 'vuex'
 
 export default {
   name: 'SysUser',
-  components: {
-    ExcelUpload
-  },
+  components: {},
   data() {
     return {
       searchForm: {},
       treeOption: {
-        nodeKey: 'id',
+        nodeKey: '_id',
         addBtn: false,
         menu: false,
         props: {
           label: 'name',
-          value: 'id'
+          value: '_id'
         }
       },
       treeData: [],
@@ -200,7 +146,7 @@ export default {
       },
       defaultProps: {
         label: 'name',
-        value: 'id'
+        value: '_id'
       },
       page: {
         total: 0, // 总页数
@@ -238,12 +184,13 @@ export default {
   methods: {
     init() {
       fetchTree().then(response => {
-        this.treeData = response.data.data
+        const { data } = response
+        this.treeData = data
       })
     },
     nodeClick(data) {
       this.page.page = 1
-      this.getList(this.page, {deptId: data.id})
+      this.getList(this.page, { deptId: data._id })
     },
     getList(page, params) {
       this.listLoading = true
@@ -371,9 +318,6 @@ export default {
             this.$notify.error('删除失败')
           })
       })
-    },
-    exportExcel() {
-      this.downBlobFile('/admin/user/export', this.searchForm, 'user.xlsx')
     }
   }
 }

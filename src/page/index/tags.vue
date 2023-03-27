@@ -51,7 +51,7 @@
   </div>
 </template>
 <script>
-import {mapGetters, mapState} from 'vuex'
+import { mapGetters, mapState } from 'vuex'
 
 export default {
   name: 'Tags',
@@ -115,7 +115,7 @@ export default {
     },
     menuTag(value, action) {
       if (action === 'remove') {
-        const {tag, key} = this.findTag(value)
+        const { tag, key } = this.findTag(value)
         this.$store.commit('DEL_TAG', tag)
         if (tag.value === this.tag.value) {
           const tagToOpen = this.tagList[key === 0 ? key : key - 1] // 如果关闭本标签让前推一个
@@ -151,7 +151,7 @@ export default {
           key = index
         }
       })
-      return {tag: tag, key: key}
+      return { tag: tag, key: key }
     },
     closeAllTags() {
       this.contextmenuFlag = false

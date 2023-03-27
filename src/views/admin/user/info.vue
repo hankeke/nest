@@ -68,12 +68,12 @@
 </template>
 
 <script>
-import {handleImg, openWindow} from '@/util'
-import {mapState} from 'vuex'
+import { handleImg, openWindow } from '@/util'
+import { mapState } from 'vuex'
 import store from '@/store'
-import {getStore} from '@/util/store'
-import {isValidateNoneMobile} from '@/util/validate'
-import {editInfo} from '@/api/admin/user'
+import { getStore } from '@/util/store'
+import { isValidateNoneMobile } from '@/util/validate'
+import { editInfo } from '@/api/admin/user'
 
 export default {
   data() {
@@ -112,7 +112,7 @@ export default {
         email: ''
       },
       rules: {
-        phone: [{required: false, validator: validatePhone, trigger: 'blur'}],
+        phone: [{ required: false, validator: validatePhone, trigger: 'blur' }],
         password: [
           {
             required: true,
@@ -130,7 +130,7 @@ export default {
           }
         ],
         newpassword2: [
-          {required: false, validator: validatePass, trigger: 'blur'}
+          { required: false, validator: validatePass, trigger: 'blur' }
         ]
       }
     }
@@ -170,7 +170,7 @@ export default {
       this.ruleForm.email = this.userInfo.email
       handleImg(this.userInfo.avatar, 'avatar')
       //判断是否选择了租户ID
-      const TENANT_ID = getStore({name: 'tenantId'})
+      const TENANT_ID = getStore({ name: 'tenantId' })
       if (TENANT_ID) {
         this.headers['TENANT-ID'] = TENANT_ID // 租户ID
       }

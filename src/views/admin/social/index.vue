@@ -22,9 +22,9 @@
 </template>
 
 <script>
-import {addObj, delObj, fetchList, putObj} from '@/api/admin/sys-social-details'
-import {tableOption} from '@/const/crud/admin/sys-social-details'
-import {mapGetters} from 'vuex'
+import { addObj, delObj, fetchList, putObj } from '@/api/admin/sys-social-details'
+import { tableOption } from '@/const/crud/admin/sys-social-details'
+import { mapGetters } from 'vuex'
 
 export default {
   name: 'SysSocialDetails',
@@ -63,21 +63,21 @@ export default {
         this.tableLoading = false
       })
     },
-    rowDel: function (row, index) {
+    rowDel: function(row, index) {
       var _this = this
       this.$confirm('是否确认删除ID为' + row.id, '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
-      }).then(function () {
+      }).then(function() {
         return delObj(row.id)
       }).then(() => {
         _this.$message.success('删除成功')
         this.refreshChange()
-      }).catch(function () {
+      }).catch(function() {
       })
     },
-    handleUpdate: function (row, index, done) {
+    handleUpdate: function(row, index, done) {
       if (row.appSecret && row.appSecret.indexOf('*') >= 0) {
         row.appSecret = undefined
       }
@@ -90,7 +90,7 @@ export default {
         done()
       })
     },
-    handleSave: function (row, done, loading) {
+    handleSave: function(row, done, loading) {
       addObj(row).then(() => {
         this.tableData.push(Object.assign({}, row))
         this.$message.success('添加成功')

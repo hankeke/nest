@@ -43,9 +43,9 @@
 </template>
 
 <script>
-import {delObj, delObjs, fetchList} from '@/api/admin/log'
-import {tableOption} from '@/const/crud/admin/log'
-import {mapGetters} from 'vuex'
+import { delObj, delObjs, fetchList } from '@/api/admin/log'
+import { tableOption } from '@/const/crud/admin/log'
+import { mapGetters } from 'vuex'
 
 export default {
   name: 'Log',
@@ -90,13 +90,13 @@ export default {
         this.tableLoading = false
       })
     },
-    handleDel: function (row) {
+    handleDel: function(row) {
       this.$confirm('是否确认删除ID为"' + row.id + '"的日志?', '警告', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
       })
-        .then(function () {
+        .then(function() {
           return delObj(row.id)
         })
         .then(() => {

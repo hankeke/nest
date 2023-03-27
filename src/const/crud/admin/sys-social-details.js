@@ -1,4 +1,4 @@
-import {getObj} from '@/api/admin/sys-social-details'
+import { getObj } from '@/api/admin/sys-social-details'
 
 var validateSocial = (rule, value, callback) => {
   getObj(value).then(response => {
@@ -41,7 +41,7 @@ export const tableOption = {
         required: true,
         message: '请选择类型',
         trigger: 'blur'
-      }, {validator: validateSocial, trigger: 'blur'}]
+      }, { validator: validateSocial, trigger: 'blur' }]
     },
     {
       label: '描述',

@@ -11,7 +11,7 @@
 </template>
 <script>
 import vueJsonEditor from 'vue-json-editor'
-import {fetchList, putObj, refreshObj} from '@/api/admin/route'
+import { fetchList, putObj, refreshObj } from '@/api/admin/route'
 
 export default {
   // 注入vueJsonEditor组件

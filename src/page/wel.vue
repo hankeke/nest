@@ -16,7 +16,7 @@
 </template>
 
 <script>
-import {mapGetters} from 'vuex'
+import { mapGetters } from 'vuex'
 
 export default {
   name: 'Wel',
@@ -26,8 +26,8 @@ export default {
         span: 6,
         data: [
           {
-            click: function (item) {
-              alert(JSON.stringify(item));
+            click: function(item) {
+              alert(JSON.stringify(item))
             },
             title: '错误日志',
             count: 12332,
@@ -36,8 +36,8 @@ export default {
             target: '_blank'
           },
           {
-            click: function (item) {
-              alert(JSON.stringify(item));
+            click: function(item) {
+              alert(JSON.stringify(item))
             },
             title: '数据展示',
             count: 33,
@@ -46,8 +46,8 @@ export default {
             target: '_blank'
           },
           {
-            click: function (item) {
-              alert(JSON.stringify(item));
+            click: function(item) {
+              alert(JSON.stringify(item))
             },
             title: '权限管理',
             count: 2223,
@@ -56,23 +56,23 @@ export default {
             target: '_blank'
           },
           {
-            click: function (item) {
-              alert(JSON.stringify(item));
+            click: function(item) {
+              alert(JSON.stringify(item))
             },
             title: '权限管理',
             count: 2223,
             icon: 'el-icon-setting',
             color: 'rgb(117, 56, 199)',
             target: '_blank'
-          },
+          }
         ]
       },
       icons: {
         span: 4,
         data: [
           {
-            click: function (item) {
-              alert(JSON.stringify(item));
+            click: function(item) {
+              alert(JSON.stringify(item))
             },
             title: '今日注册',
             count: 12678,
@@ -81,8 +81,8 @@ export default {
             target: '_blank'
           },
           {
-            click: function (item) {
-              alert(JSON.stringify(item));
+            click: function(item) {
+              alert(JSON.stringify(item))
             },
             title: '今日登录',
             count: 22139,
@@ -90,8 +90,8 @@ export default {
             target: '_blank'
           },
           {
-            click: function (item) {
-              alert(JSON.stringify(item));
+            click: function(item) {
+              alert(JSON.stringify(item))
             },
             title: '今日订阅',
             count: 35623,
@@ -99,8 +99,8 @@ export default {
             target: '_blank'
           },
           {
-            click: function (item) {
-              alert(JSON.stringify(item));
+            click: function(item) {
+              alert(JSON.stringify(item))
             },
             title: '今日评论',
             count: 16826,
@@ -108,8 +108,8 @@ export default {
             target: '_blank'
           },
           {
-            click: function (item) {
-              alert(JSON.stringify(item));
+            click: function(item) {
+              alert(JSON.stringify(item))
             },
             title: '今日评论',
             count: 16826,
@@ -117,8 +117,8 @@ export default {
             target: '_blank'
           },
           {
-            click: function (item) {
-              alert(JSON.stringify(item));
+            click: function(item) {
+              alert(JSON.stringify(item))
             },
             title: '今日评论',
             count: 16826,
@@ -131,8 +131,8 @@ export default {
         span: 6,
         data: [
           {
-            click: function (item) {
-              alert(JSON.stringify(item));
+            click: function(item) {
+              alert(JSON.stringify(item))
             },
             title: '转化率（日同比 28%）',
             color: 'rgb(178, 159, 255)',
@@ -140,8 +140,8 @@ export default {
             target: '_blank'
           },
           {
-            click: function (item) {
-              alert(JSON.stringify(item));
+            click: function(item) {
+              alert(JSON.stringify(item))
             },
             title: '签到率（日同比 11%）',
             color: 'rgb(230, 71, 88)',
@@ -149,8 +149,8 @@ export default {
             target: '_blank'
           },
           {
-            click: function (item) {
-              alert(JSON.stringify(item));
+            click: function(item) {
+              alert(JSON.stringify(item))
             },
             title: 'CPU使用率',
             color: 'rgb(27, 201, 142)',
@@ -158,8 +158,8 @@ export default {
             target: '_blank'
           },
           {
-            click: function (item) {
-              alert(JSON.stringify(item));
+            click: function(item) {
+              alert(JSON.stringify(item))
             },
             title: '使用人数',
             color: 'red',

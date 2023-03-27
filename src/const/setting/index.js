@@ -44,7 +44,7 @@ export const option = (safe) => {
       type: 'switch',
       span: 24,
       dicData: dicData,
-      click: ({column}) => {
+      click: ({ column }) => {
         _safe.set(column.prop)
       }
     }, {
@@ -53,7 +53,7 @@ export const option = (safe) => {
       type: 'switch',
       span: 24,
       dicData: dicData,
-      click: ({column}) => {
+      click: ({ column }) => {
         _safe.set(column.prop)
       }
     }, {
@@ -62,7 +62,7 @@ export const option = (safe) => {
       type: 'switch',
       span: 24,
       dicData: dicData,
-      click: ({column}) => {
+      click: ({ column }) => {
         _safe.set(column.prop)
       }
     }, {
@@ -71,7 +71,7 @@ export const option = (safe) => {
       type: 'switch',
       span: 24,
       dicData: dicData,
-      click: ({column}) => {
+      click: ({ column }) => {
         _safe.set(column.prop)
       }
     }, {
@@ -80,7 +80,7 @@ export const option = (safe) => {
       type: 'switch',
       span: 24,
       dicData: dicData,
-      click: ({column}) => {
+      click: ({ column }) => {
         _safe.set(column.prop)
       }
     }, {
@@ -89,7 +89,7 @@ export const option = (safe) => {
       type: 'switch',
       span: 24,
       dicData: dicData,
-      click: ({column}) => {
+      click: ({ column }) => {
         _safe.set(column.prop)
       }
     }, {
@@ -98,7 +98,7 @@ export const option = (safe) => {
       type: 'switch',
       span: 24,
       dicData: dicData,
-      click: ({column}) => {
+      click: ({ column }) => {
         _safe.set(column.prop)
       }
     }, {
@@ -107,7 +107,7 @@ export const option = (safe) => {
       type: 'switch',
       span: 24,
       dicData: dicData,
-      click: ({column}) => {
+      click: ({ column }) => {
         _safe.set(column.prop)
       }
     }]

@@ -1,8 +1,8 @@
-const RouterPlugin = function () {
+const RouterPlugin = function() {
   this.$router = null
   this.$store = null
 }
-RouterPlugin.install = function (router, store) {
+RouterPlugin.install = function(router, store) {
   this.$router = router
   this.$store = store
 
@@ -25,7 +25,7 @@ RouterPlugin.install = function (router, store) {
     group: '',
     safe: this,
     // 设置标题
-    setTitle: function (title) {
+    setTitle: function(title) {
       title = title ? `${title}——${this.$website.title}` : this.$website.title
       document.title = title
     },
@@ -34,8 +34,8 @@ RouterPlugin.install = function (router, store) {
       this.$store.commit('DEL_TAG', tag)
     },
     // 处理路由
-    getPath: function (params) {
-      const {src} = params
+    getPath: function(params) {
+      const { src } = params
       let result = src || '/'
       if (src.includes('http') || src.includes('https')) {
         result = `/myiframe/urlPath?${objToform(params)}`
@@ -43,7 +43,7 @@ RouterPlugin.install = function (router, store) {
       return result
     },
     // 正则处理路由
-    vaildPath: function (list, path) {
+    vaildPath: function(list, path) {
       let result = false
       list.forEach(ele => {
         if (new RegExp('^' + ele + '.*', 'g').test(path)) {
@@ -53,7 +53,7 @@ RouterPlugin.install = function (router, store) {
       return result
     },
     // 设置路由值
-    getValue: function (route) {
+    getValue: function(route) {
       let value = ''
       if (route.query.src) {
         value = route.query.src
@@ -63,7 +63,7 @@ RouterPlugin.install = function (router, store) {
       return value
     },
     // 动态路由
-    formatRoutes: function (aMenu = [], first) {
+    formatRoutes: function(aMenu = [], first) {
       const aRouter = []
       const propsConfig = this.$website.menu.props
       const propsDefault = {

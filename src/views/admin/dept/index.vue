@@ -66,16 +66,15 @@
 </template>
 
 <script>
-import {delObj, fetchTree} from '@/api/admin/dept'
+import { delObj, fetchTree } from '@/api/admin/dept'
 import TableForm from './dept-form'
-import {mapGetters} from 'vuex'
-import ExcelUpload from '@/components/upload/excel'
+import { mapGetters } from 'vuex'
 import dayjs from 'dayjs'
 import 'dayjs/locale/zh-cn'
 
 export default {
   name: 'Dept',
-  components: {TableForm, ExcelUpload},
+  components: { TableForm },
   data() {
     return {
       addOrUpdateVisible: false,
@@ -117,7 +116,7 @@ export default {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
-      }).then(function () {
+      }).then(function() {
         return delObj(row._id)
       }).then(() => {
         this.getList()

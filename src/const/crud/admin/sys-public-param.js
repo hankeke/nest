@@ -1,6 +1,6 @@
-import {rule} from '@/util/validateRules'
+import { rule } from '@/util/validateRules'
 
-import {getObj} from '@/api/admin/sys-public-param'
+import { getObj } from '@/api/admin/sys-public-param'
 
 
 var validateParam = (rule, value, callback) => {
@@ -28,18 +28,18 @@ export const tableOption = {
       search: true,
       prop: 'publicName',
       rules: [
-        {required: true, message: '请输名称', trigger: 'blur'},
-        {max: 30, message: '长度在 30 个字符', trigger: 'blur'},
-        {validator: rule.validatorNameCn, trigger: 'blur'}
+        { required: true, message: '请输名称', trigger: 'blur' },
+        { max: 30, message: '长度在 30 个字符', trigger: 'blur' },
+        { validator: rule.validatorNameCn, trigger: 'blur' }
       ]
     },
     {
       label: '键',
       prop: 'publicKey',
       rules: [
-        {required: true, message: '请输入键', trigger: 'blur'},
-        {validator: rule.validatorKey, trigger: 'blur'},
-        {validator: validateParam, trigger: 'blur'}
+        { required: true, message: '请输入键', trigger: 'blur' },
+        { validator: rule.validatorKey, trigger: 'blur' },
+        { validator: validateParam, trigger: 'blur' }
       ]
 
     },
@@ -48,7 +48,7 @@ export const tableOption = {
       overHidden: true,
       prop: 'publicValue',
       rules: [
-        {required: true, message: '请输入值', trigger: 'blur'}
+        { required: true, message: '请输入值', trigger: 'blur' }
       ]
     },
     {
@@ -74,7 +74,7 @@ export const tableOption = {
       type: 'select',
       dicUrl: '/admin/dict/type/status_type',
       rules: [
-        {required: true, message: '请输入值', trigger: 'blur'}
+        { required: true, message: '请输入值', trigger: 'blur' }
       ]
     },
     {

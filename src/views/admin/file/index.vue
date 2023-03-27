@@ -31,9 +31,9 @@
 </template>
 
 <script>
-import {delObj, fetchList} from '@/api/admin/sys-file'
-import {tableOption} from '@/const/crud/admin/sys-file'
-import {mapGetters} from 'vuex'
+import { delObj, fetchList } from '@/api/admin/sys-file'
+import { tableOption } from '@/const/crud/admin/sys-file'
+import { mapGetters } from 'vuex'
 
 export default {
   name: 'sys-file',
@@ -83,14 +83,14 @@ export default {
           this.tableLoading = false
         })
     },
-    rowDel: function (row, index) {
+    rowDel: function(row, index) {
       const _this = this
       this.$confirm('是否确认删除ID为' + row.id, '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
       })
-        .then(function () {
+        .then(function() {
           return delObj(row.id)
         })
         .then(data => {
@@ -113,7 +113,7 @@ export default {
     currentChange(current) {
       this.page.currentPage = current
     },
-    download: function (row, index) {
+    download: function(row, index) {
       this.downBlobFile(
         '/admin/sys-file/' + row.bucketName + '/' + row.fileName,
         this.searchForm,

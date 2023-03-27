@@ -1,6 +1,6 @@
 export default {
   title: '鸟巢',
-  subtitle: '',
+  subtitle: '快速开发平台',
   copyright: 'Copyright © 2021-present labring/laf.',
   isFirstPage: true, // 配置首页不可关闭
   key: 'nest', // 配置主键,目前用于存储
