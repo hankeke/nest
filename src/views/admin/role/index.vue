@@ -20,7 +20,7 @@
         <template slot="dsScopeForm" slot-scope="{}">
           <div v-if="form.dsType === 1">
             <el-tree ref="scopeTree" :data="dsScopeData" :check-strictly="true" :props="defaultProps"
-              :default-checked-keys="checkedDsScope" class="filter-tree" node-key="id" highlight-current show-checkbox />
+              :default-checked-keys="checkedDsScope" class="filter-tree" node-key="_id" highlight-current show-checkbox />
           </div>
         </template>
 
