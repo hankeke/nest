@@ -16,17 +16,6 @@
         @size-change="sizeChange"
         @current-change="currentChange"
         @row-del="rowDel">
-        <template slot="menuLeft">
-          <el-button
-            v-if="permissions.sys_dict_del"
-            class="filter-item"
-            type="primary"
-            size="small"
-            icon="el-icon-refresh-left"
-            @click="handleRefreshCache"
-          >缓存
-          </el-button>
-        </template>
         <template
           slot="menu"
           slot-scope="scope">
@@ -57,13 +46,13 @@
         @current-change="itemCurrentChange"
         @row-update="handleItemUpdate"
         @row-save="handleItemSave"
-        @row-del="rowItemDel"/>
+        @row-del="rowItemDel" />
     </el-dialog>
   </div>
 </template>
 
 <script>
-import { addItemObj, addObj, delItemObj, delObj, fetchItemList, fetchList, putItemObj, putObj, refreshCache } from '@/api/admin/dict'
+import { addItemObj, addObj, delItemObj, delObj, fetchItemList, fetchList, putItemObj, putObj } from '@/api/admin/dict'
 import { tableDictItemOption, tableOption } from '@/const/crud/admin/dict'
 import { mapGetters } from 'vuex'
 
@@ -115,8 +104,9 @@ export default {
         size: page.pageSize,
         descs: 'create_time'
       }, params, this.searchForm)).then(response => {
-        this.tableData = response.data.data.records
-        this.page.total = response.data.data.total
+        const { data, total } = response
+        this.tableData = data
+        this.page.total = total
         this.tableLoading = false
       })
     },
@@ -221,12 +211,6 @@ export default {
       }).then(() => {
         this.getDictItemList()
         this.$message.success('删除成功')
-      }).catch(function() {
-      })
-    },
-    handleRefreshCache: function() {
-      refreshCache().then(() => {
-        this.$message.success('同步成功')
       }).catch(function() {
       })
     }

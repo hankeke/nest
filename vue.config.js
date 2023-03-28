@@ -47,7 +47,7 @@ module.exports = {
     disableHostCheck: true,
     port: 8080,
     proxy: {
-      '/': {
+      '/api': {
         target: '',
         ws: false, // 需要websocket 开启
         pathRewrite: {

@@ -1,11 +1,32 @@
 import request from '@/router/axios'
 
-export function fetchList(query) {
-  return request({
-    url: '/admin/dict/page',
-    method: 'get',
-    params: query
-  })
+import { cloud } from "@/api/cloud"
+
+const DB = cloud.database()
+const DB_NAME = {
+  SYS_DICT: 'sys_dict'
+}
+
+export async function fetchList(query) {
+  console.debug('Dict[fetchList] request param query->', query)
+  const { current, size } = query
+  const res = await DB
+    .collection(DB_NAME.SYS_DICT)
+    .where({})
+    .skip(size * (current - 1))
+    .limit(size)
+    .get()
+  const { total } = await DB.collection(DB_NAME.SYS_DICT)
+    .where({})
+    .count()
+  console.debug('分页查询结果: ', res.data)
+  const r = {
+    data: res.data,
+    success: res.ok,
+    total
+  }
+  console.debug('Dict[fetchList] result->', r)
+  return r
 }
 
 export function fetchItemList(query) {
@@ -76,16 +97,38 @@ export function putObj(obj) {
   })
 }
 
-export function remote(type) {
-  return request({
-    url: '/admin/dict/type/' + type,
-    method: 'get'
-  })
+export async function remote(type) {
+  console.debug('Dict[remote] type->', type)
+  const { data: dict, ok } = await DB
+    .collection(DB_NAME.SYS_DICT)
+    .where({ dictType: type })
+    .getOne()
+  if (!dict) {
+    return {
+      data: null,
+      success: ok
+    }
+  }
+  console.debug('Dict[remote] result->', dict)
+  return {
+    data: dict,
+    success: ok
+  }
 }
 
-export function refreshCache() {
-  return request({
-    url: '/admin/dict/sync',
-    method: 'put'
-  })
+
+export async function listDictItemByType(type) {
+  console.debug('Dict[listDictItemByType] type->', type)
+  if (!type) {
+    throw new Error('参数不合法')
+  }
+  const { data, ok } = await DB
+    .collection(DB_NAME.SYS_DICT)
+    .where({ dictType: type })
+    .getOne()
+  console.debug('Dict[listDictItemByType] data->', data)  
+  return {
+    data: data.records,
+    success: ok
+  }
 }

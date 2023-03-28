@@ -1,12 +1,12 @@
-import { remote } from '@/api/admin/dict.js'
+import { remote } from '@/api/admin/dict.js' 
 
 const validateDict = (rule, value, callback) => {
   remote(value).then(response => {
     if (window.boxType === 'edit') {
       return callback()
     }
-    const result = response.data.data
-    if (result && result.length !== 0) {
+    const { data } = response
+    if (data && data.length !== 0) {
       callback(new Error('同名字典已存在'))
     } else {
       callback()
@@ -47,7 +47,6 @@ export const tableOption = {
     label: '字典类型',
     prop: 'systemFlag',
     type: 'select',
-    dicUrl: '/admin/dict/type/dict_type',
     rules: [{
       required: true,
       message: '请输入字典类型',
