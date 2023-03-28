@@ -17,29 +17,18 @@
         @row-update="handleUpdate"
         @row-save="handleSave"
         @row-del="rowDel">
-        <template slot="menuLeft">
-          <el-button
-            v-if="permissions.admin_syspublicparam_del"
-            class="filter-item"
-            type="primary"
-            size="small"
-            icon="el-icon-refresh-left"
-            @click="handleRefreshCache"
-          >刷新
-          </el-button>
-        </template>
       </avue-crud>
     </basic-container>
   </div>
 </template>
 
 <script>
-import { addObj, delObj, fetchList, putObj, refreshCache } from '@/api/admin/sys-public-param'
+import { addObj, delObj, fetchList, putObj } from '@/api/admin/sys-public-param'
 import { tableOption } from '@/const/crud/admin/sys-public-param'
 import { mapGetters } from 'vuex'
 
 export default {
-  name: 'Syspublicparam',
+  name: 'SysParam',
   data() {
     return {
       searchForm: {},
@@ -57,9 +46,9 @@ export default {
     ...mapGetters(['permissions']),
     permissionList() {
       return {
-        addBtn: this.vaildData(this.permissions.admin_syspublicparam_add, false),
-        delBtn: this.vaildData(this.permissions.admin_syspublicparam_del, false),
-        editBtn: this.vaildData(this.permissions.admin_syspublicparam_edit, false)
+        addBtn: this.vaildData(this.permissions.sys_param_add, false),
+        delBtn: this.vaildData(this.permissions.sys_param_del, false),
+        editBtn: this.vaildData(this.permissions.sys_param_edit, false)
       }
     }
   },
@@ -71,18 +60,19 @@ export default {
         current: page.currentPage,
         size: page.pageSize
       }, params, this.searchForm)).then(response => {
-        this.tableData = response.data.data.records
-        this.page.total = response.data.data.total
+        const { data, total } = response
+        this.tableData = data
+        this.page.total = total
         this.tableLoading = false
       })
     },
     rowDel: function(row, index) {
-      this.$confirm('是否确认删除ID为' + row.publicId, '提示', {
+      this.$confirm('是否确认删除ID为' + row.publicName, '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
       }).then(function() {
-        return delObj(row.publicId)
+        return delObj(row._id)
       }).then(data => {
         this.getList(this.page)
         this.$message.success('删除成功')
@@ -138,12 +128,6 @@ export default {
     },
     currentChange(current) {
       this.page.currentPage = current
-    },
-    handleRefreshCache: function() {
-      refreshCache().then(() => {
-        this.$message.success('同步成功')
-      }).catch(function() {
-      })
     }
   }
 }

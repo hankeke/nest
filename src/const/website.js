@@ -1,5 +1,5 @@
 export default {
-  title: '鸟巢',
+  title: 'Laf-快速开发平台',
   subtitle: '快速开发平台',
   copyright: 'Copyright © 2021-present labring/laf.',
   isFirstPage: true, // 配置首页不可关闭

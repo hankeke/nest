@@ -56,7 +56,10 @@ export async function fetchList(query) {
 
 
 export async function addObj(obj) {
-  return await cloud.invokeFunction('sys-user-create', obj)
+  console.debug('User[addObj] obj->', obj)
+  const res = await cloud.invokeFunction('sys-user-create', obj)
+  console.debug('User[addObj] res->', res)
+  return res
 }
 
 export async function getObj(id) {
@@ -128,7 +131,10 @@ export async function delObj(id) {
 }
 
 export async function putObj(obj) {
-  return await cloud.invokeFunction('sys-user-update', obj)
+  console.debug('User[putObj] obj->', obj)
+  const res = await cloud.invokeFunction('sys-user-update', obj)
+  console.debug('User[putObj] res->', res)
+  return res
 }
 
 export async function getDetails(username) {
@@ -171,7 +177,10 @@ export async function getDetailsByPhone(phone) {
 }
 
 export async function editInfo(obj) {
-  return await cloud.invokeFunction('sys-user-edit', obj)
+  console.debug('User[editInfo] obj->', obj)
+  const res = await cloud.invokeFunction('sys-user-edit', obj)
+  console.debug('User[editInfo] res->', res)
+  return res
 }
 
 /**

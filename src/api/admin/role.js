@@ -8,13 +8,6 @@ const DB_NAME = {
   SYS_USER_ROLE: 'sys_user_role'
 }
 
-export async function roleList() {
-  console.debug('Role[roleList]')
-  const res = await DB.collection(DB_NAME.SYS_ROLE).get()
-  console.debug('Role[roleList] result->', res)
-  return res
-}
-
 export async function fetchList(query) {
   console.debug('Role[fetchList] request param query->', query)
   const { current, size } = query

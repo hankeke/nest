@@ -82,16 +82,8 @@
           </el-button>
         </template>
       </avue-crud>
-
-      <!--excel 模板导入 -->
-      <excel-upload
-        ref="excelUpload"
-        title="角色信息导入"
-        url="/admin/role/import"
-        temp-name="角色信息.xlsx"
-        temp-url="/admin/sys-file/local/file/role.xlsx"
-        @refreshDataList="handleRefreshChange"></excel-upload>
     </basic-container>
+
     <el-dialog :visible.sync="dialogPermissionVisible" :close-on-click-modal="false" title="分配权限">
       <div class="dialog-main-tree">
         <el-tree

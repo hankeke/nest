@@ -25,7 +25,7 @@
                   </el-upload>
                 </el-form-item>
                 <el-form-item label="用户名" prop="username">
-                  <el-input v-model="ruleForm.username" type="text" disabled="true" />
+                  <el-input v-model="ruleForm.username" type="text" disabled/>
                 </el-form-item>
                 <el-form-item label="手机号" prop="phone">
                   <el-input v-model="ruleForm.phone" placeholder="验证码登录使用" />
