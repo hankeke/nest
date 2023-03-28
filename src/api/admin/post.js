@@ -8,7 +8,7 @@ const DB_NAME = {
 export async function listPosts() {
   console.debug('Post[fetchList] request')
   const res = await DB
-    .collection(DB_NAME.SYS_ROLE)
+    .collection(DB_NAME.SYS_POST)
     .where({})
     .get()
   console.debug('列表查询结果: ', res.data)

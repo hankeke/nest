@@ -138,11 +138,11 @@ export default {
       checkedKeys: [],
       roleProps: {
         label: 'roleName',
-        value: 'roleId'
+        value: '_id'
       },
       postProps: {
         label: 'postName',
-        value: 'postId'
+        value: '_id'
       },
       defaultProps: {
         label: 'name',
@@ -249,16 +249,17 @@ export default {
       })
       // 查询岗位列表
       listPosts().then(response => {
-        this.postOptions = response.data.data
+        const { data } = response
+        this.postOptions = data
       })
       if (['edit', 'view'].includes(type)) {
         this.role = []
         for (let i = 0; i < this.form.roleList.length; i++) {
-          this.role[i] = this.form.roleList[i].roleId
+          this.role[i] = this.form.roleList[i]._id
         }
         this.post = []
         for (let i = 0; i < this.form.postList.length; i++) {
-          this.post[i] = this.form.postList[i].postId
+          this.post[i] = this.form.postList[i]._id
         }
       } else if (type === 'add') {
         this.role = []
@@ -314,7 +315,7 @@ export default {
           type: 'warning'
         }
       ).then(() => {
-        delObj(row._)
+        delObj(row._id)
           .then(() => {
             this.list.splice(index, 1)
             this.$notify.success('删除成功')

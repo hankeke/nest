@@ -1,14 +1,12 @@
-import request from '@/router/axios'
 import { cloud } from "@/api/cloud"
 
 const DB = cloud.database()
+const CMD = DB.command
 const DB_NAME = {
   SYS_USER: 'sys_user',
   SYS_ROLE: 'sys_role',
-  SYS_MENU: 'sys_menu',
   SYS_DEPT: 'sys_dept',
   SYS_POST: 'sys_post',
-  SYS_ROLE_MENU: 'sys_role_menu',
   SYS_USER_ROLE: 'sys_user_role',
   SYS_USER_POST: 'sys_user_post'
 }
@@ -42,12 +40,13 @@ export async function fetchList(query) {
       total: 0
     }
   }
-  const { total } = await DB.collection(DB_NAME.SYS_USER)
+  const { total } = await DB
+    .collection(DB_NAME.SYS_USER)
     .where(qo)
     .count()
-  
+  const data = await getUserAttrs(users)
   const r = {
-    data: users,
+    data: data,
     success: ok,
     total
   }
@@ -55,56 +54,160 @@ export async function fetchList(query) {
   return r
 }
 
-export function addObj(obj) {
-  return request({
-    url: '/admin/user',
-    method: 'post',
-    data: obj
-  })
+
+export async function addObj(obj) {
+  return await cloud.invokeFunction('sys-user-create', { obj })
 }
 
-export function getObj(id) {
-  return request({
-    url: '/admin/user/' + id,
-    method: 'get'
-  })
+export async function getObj(id) {
+  const { data: user, ok } = await DB
+    .collection(DB_NAME.SYS_USER)
+    .withOne({
+      query: DB.collection(DB_NAME.SYS_DEPT),
+      localField: "deptId",
+      foreignField: "_id",
+      as: "dept"
+    })
+    .where({ _id: id })
+    .getOne()
+  if (!user) {
+    return {
+      data: {},
+      success: ok,
+      total: 0
+    }
+  }
+  // build userRoles
+  const { data: userRoles } = await DB
+    .collection(DB_NAME.SYS_USER_ROLE)
+    .where({ userId: user._id })
+    .get()
+  if (userRoles) {
+    const { data: roles } = await DB
+      .collection(DB_NAME.SYS_ROLE)
+      .where({ _id: CMD.in(userRoles.map(({ roleId }) => roleId)) })
+      .get()
+    user.roleList = roles
+  }
+
+  // build userPosts
+  const { data: userPosts } = await DB
+    .collection(DB_NAME.SYS_USER_POST)
+    .where({ userId: user._id })
+    .get()
+  if (userPosts) {
+    const { data: posts } = await DB
+      .collection(DB_NAME.SYS_POST)
+      .where({ _id: CMD.in(userPosts.map(({ postId }) => postId)) })
+      .get()
+    user.postList = posts
+  }
+  return {
+    data: user,
+    success: ok
+  }
 }
 
-export function delObj(id) {
-  return request({
-    url: '/admin/user/' + id,
-    method: 'delete'
-  })
+export async function delObj(id) {
+  console.debug('User[delObj] id->', id)
+  // 移除用户角色
+  await DB.collection(DB_NAME.SYS_USER_ROLE)
+    .where({ userId: id })
+    .remove()
+  // 移除用户岗位
+  await DB.collection(DB_NAME.SYS_USER_POST)
+    .where({ userId: id })
+    .remove()
+
+  // 移除用户
+  const res = await DB.collection(DB_NAME.SYS_USER)
+    .where({ _id: id })
+    .remove()
+  console.debug('User[delObj] result->', res)
+  return res
 }
 
-export function putObj(obj) {
-  return request({
-    url: '/admin/user',
-    method: 'put',
-    data: obj
-  })
+export async function putObj(obj) {
+  return await cloud.invokeFunction('sys-user-update', { obj })
 }
 
-export function getDetails(obj) {
-  return request({
-    url: '/admin/user/details/' + obj,
-    method: 'get'
-  })
+export async function getDetails(obj) {
+  console.debug('User[getDetails] obj->', obj)
+  const { data: user, ok } = await DB
+    .collection(DB_NAME.SYS_USER)
+    .where({ username: obj.username })
+    .getOne()
+  if (!user) {
+    return {
+      data: {},
+      success: ok,
+      total: 0
+    }
+  }
+  console.debug('User[getDetails] result->', user)
+  return {
+    data: user,
+    success: ok,
+    total: 0
+  }
 }
 
 
-export function getDetailsByPhone(obj) {
-  return request({
-    url: '/admin/user/detailsByPhone/' + obj,
-    method: 'get'
-  })
+export async function getDetailsByPhone(obj) {
+  console.debug('User[getDetailsByPhone] obj->', obj)
+  const { data: user, ok } = await DB
+    .collection(DB_NAME.SYS_USER)
+    .where({ phone: obj.phone })
+    .getOne()
+  if (!user) {
+    return {
+      data: {},
+      success: ok,
+      total: 0
+    }
+  }
+  console.debug('User[getDetailsByPhone] result->', user)
+  return {
+    data: user,
+    success: ok,
+    total: 0
+  }
 }
 
-// 更改个人信息
-export function editInfo(obj) {
-  return request({
-    url: '/admin/user/edit',
-    method: 'put',
-    data: obj
-  })
+export async function editInfo(obj) {
+  return await cloud.invokeFunction('sys-user-edit', { obj })
+}
+
+/**
+ * 用户附属信息
+ * @param users 用户列表信息
+ * @returns {Promise<*>}
+ */
+async function getUserAttrs(users) {
+  for (const user of users) {
+    // build userRoles
+    const { data: userRoles } = await DB.collection(DB_NAME.SYS_USER_ROLE)
+      .where({ userId: user._id })
+      .get()
+    if (userRoles) {
+      const roleIds = userRoles.map(({ roleId }) => roleId)
+      const { data: roles } = await DB.collection(DB_NAME.SYS_ROLE)
+        .where({ _id: CMD.in(roleIds) })
+        .get()
+      user.roleList = roles
+    }
+
+    // build userPosts
+    const { data: userPosts } = await DB.collection(DB_NAME.SYS_USER_POST)
+      .where({ userId: user._id })
+      .get()
+    if (userPosts) {
+      const postIds = userPosts.map(({ postId }) => postId)
+      const { data: posts } = await DB.collection(DB_NAME.SYS_POST)
+        .where({ _id: CMD.in(postIds) })
+        .get()
+      user.postList = posts
+    }
+  }
+  return users
 }

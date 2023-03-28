@@ -2,7 +2,8 @@
   <div class="app-container calendar-list-container">
     <basic-container>
       <avue-crud
-        ref="crud" v-model="form"
+        ref="crud"
+        v-model="form"
         :option="tableOption"
         :data="list"
         :page.sync="page"
@@ -16,45 +17,95 @@
         @row-update="update"
         @row-save="create">
         <template slot="menuLeft">
-          <el-button v-if="roleManager_btn_add" class="filter-item" type="primary" icon="el-icon-edit"
-                     @click="handleCreate">添加
+          <el-button
+            v-if="roleManager_btn_add"
+            class="filter-item"
+            type="primary"
+            icon="el-icon-edit"
+            @click="handleCreate">添加
           </el-button>
-          <el-button v-if="permissions.sys_role_export" class="filter-item" plain type="primary" size="small"
-                     icon="el-icon-upload" @click="$refs.excelUpload.show()">导入
+          <el-button
+            v-if="permissions.sys_role_export"
+            class="filter-item"
+            plain
+            type="primary"
+            size="small"
+            icon="el-icon-upload"
+            @click="$refs.excelUpload.show()">导入
           </el-button>
-          <el-button v-if="permissions.sys_role_export" class="filter-item" plain type="primary" size="small"
-                     icon="el-icon-download" @click="exportExcel">导出
+          <el-button
+            v-if="permissions.sys_role_export"
+            class="filter-item"
+            plain
+            type="primary"
+            size="small"
+            icon="el-icon-download"
+            @click="exportExcel">导出
           </el-button>
         </template>
         <template slot="dsScopeForm" slot-scope="{}">
           <div v-if="form.dsType === 1">
-            <el-tree ref="scopeTree" :data="dsScopeData" :check-strictly="true" :props="defaultProps"
-                     :default-checked-keys="checkedDsScope" class="filter-tree" node-key="_id" highlight-current show-checkbox/>
+            <el-tree
+              ref="scopeTree"
+              :data="dsScopeData"
+              :check-strictly="true"
+              :props="defaultProps"
+              :default-checked-keys="checkedDsScope"
+              class="filter-tree"
+              node-key="_id"
+              highlight-current
+              show-checkbox />
           </div>
         </template>
 
         <template slot="menu" slot-scope="scope">
-          <el-button v-if="roleManager_btn_edit" type="text" size="small" icon="el-icon-edit"
-                     @click="handleUpdate(scope.row, scope.index)">编辑
+          <el-button
+            v-if="roleManager_btn_edit"
+            type="text"
+            size="small"
+            icon="el-icon-edit"
+            @click="handleUpdate(scope.row, scope.index)">编辑
           </el-button>
-          <el-button v-if="roleManager_btn_del" type="text" size="small" icon="el-icon-delete"
-                     @click="handleDelete(scope.row, scope.index)">删除
+          <el-button
+            v-if="roleManager_btn_del"
+            type="text"
+            size="small"
+            icon="el-icon-delete"
+            @click="handleDelete(scope.row, scope.index)">删除
           </el-button>
-          <el-button v-if="roleManager_btn_perm" type="text" size="small" icon="el-icon-plus"
-                     @click="handlePermission(scope.row, scope.index)">权限
+          <el-button
+            v-if="roleManager_btn_perm"
+            type="text"
+            size="small"
+            icon="el-icon-plus"
+            @click="handlePermission(scope.row, scope.index)">权限
           </el-button>
         </template>
       </avue-crud>
 
       <!--excel 模板导入 -->
-      <excel-upload ref="excelUpload" title="角色信息导入" url="/admin/role/import" temp-name="角色信息.xlsx"
-                    temp-url="/admin/sys-file/local/file/role.xlsx" @refreshDataList="handleRefreshChange"></excel-upload>
+      <excel-upload
+        ref="excelUpload"
+        title="角色信息导入"
+        url="/admin/role/import"
+        temp-name="角色信息.xlsx"
+        temp-url="/admin/sys-file/local/file/role.xlsx"
+        @refreshDataList="handleRefreshChange"></excel-upload>
     </basic-container>
     <el-dialog :visible.sync="dialogPermissionVisible" :close-on-click-modal="false" title="分配权限">
       <div class="dialog-main-tree">
-        <el-tree ref="menuTree" :data="treeData" :default-checked-keys="checkedKeys" :check-strictly="false"
-                 :props="defaultProps" :filter-node-method="filterNode" class="filter-tree" node-key="_id" highlight-current
-                 show-checkbox default-expand-all/>
+        <el-tree
+          ref="menuTree"
+          :data="treeData"
+          :default-checked-keys="checkedKeys"
+          :check-strictly="false"
+          :props="defaultProps"
+          :filter-node-method="filterNode"
+          class="filter-tree"
+          node-key="_id"
+          highlight-current
+          show-checkbox
+          default-expand-all />
       </div>
       <div slot="footer" class="dialog-footer">
         <el-button type="primary" size="small" @click="updatePermission(roleId)">更 新
@@ -72,11 +123,10 @@ import { tableOption } from '@/const/crud/admin/role'
 import { fetchTree } from '@/api/admin/dept'
 import { list } from '@/api/admin/menu'
 import { mapGetters } from 'vuex'
-import ExcelUpload from '@/components/upload/excel'
 
 export default {
   name: 'TableRole',
-  components: { ExcelUpload },
+  components: { },
   data() {
     return {
       searchForm: {},
@@ -124,9 +174,6 @@ export default {
     this.roleManager_btn_perm = this.permissions['sys_role_perm']
   },
   methods: {
-    exportExcel() {
-      this.downBlobFile('/admin/role/export', {}, 'role.xlsx')
-    },
     handleRefreshChange() {
       this.getList(this.page)
     },

@@ -20,39 +20,33 @@
                     class="avatar-uploader"
                     action="/admin/sys-file/upload"
                   >
-                    <img v-if="ruleForm.avatar" id="avatar" :src="avatarUrl" class="avatar"/>
-                    <i v-else class="el-icon-plus avatar-uploader-icon"/>
+                    <img v-if="ruleForm.avatar" id="avatar" :src="avatarUrl" class="avatar" alt="头像" />
+                    <i v-else class="el-icon-plus avatar-uploader-icon" />
                   </el-upload>
                 </el-form-item>
                 <el-form-item label="用户名" prop="username">
-                  <el-input v-model="ruleForm.username" type="text" disabled/>
+                  <el-input v-model="ruleForm.username" type="text" disabled="true" />
                 </el-form-item>
                 <el-form-item label="手机号" prop="phone">
-                  <el-input v-model="ruleForm.phone" placeholder="验证码登录使用"/>
+                  <el-input v-model="ruleForm.phone" placeholder="验证码登录使用" />
                 </el-form-item>
                 <el-form-item label="昵称" prop="nickname">
-                  <el-input v-model="ruleForm.nickname" placeholder="昵称"/>
+                  <el-input v-model="ruleForm.nickname" placeholder="昵称" />
                 </el-form-item>
                 <el-form-item label="姓名" prop="name">
-                  <el-input v-model="ruleForm.name" placeholder="姓名"/>
+                  <el-input v-model="ruleForm.name" placeholder="姓名" />
                 </el-form-item>
                 <el-form-item label="邮箱" prop="email">
-                  <el-input v-model="ruleForm.email" placeholder="邮箱"/>
-                </el-form-item>
-                <el-form-item label="社交登录" prop="social">
-                  <a href="#" class="icon-weixin" @click="handleClick('wechat')"></a>｜
-                  <a href="#" class="icon-qq" @click="handleClick('tencent')"></a> |
-                  <a href="#" class="icon-gitee-fill-round" @click="handleClick('gitee')"></a> |
-                  <a href="#" class="icon-C" @click="handleClick('osc')"></a>
+                  <el-input v-model="ruleForm.email" placeholder="邮箱" />
                 </el-form-item>
                 <el-form-item label="原密码" prop="password">
-                  <el-input v-model="ruleForm.password" type="password" auto-complete="off"/>
+                  <el-input v-model="ruleForm.password" type="password" auto-complete="off" />
                 </el-form-item>
-                <el-form-item label="新密码" prop="newpassword1">
-                  <el-input v-model="ruleForm.newpassword1" type="password" auto-complete="off"/>
+                <el-form-item label="新密码" prop="newPassword">
+                  <el-input v-model="ruleForm.newPassword" type="password" auto-complete="off" />
                 </el-form-item>
-                <el-form-item label="确认密码" prop="newpassword2">
-                  <el-input v-model="ruleForm.newpassword2" type="password" auto-complete="off"/>
+                <el-form-item label="确认密码" prop="confirmPassword">
+                  <el-input v-model="ruleForm.confirmPassword" type="password" auto-complete="off" />
                 </el-form-item>
                 <el-form-item>
                   <el-button type="primary" @click="submitForm()">提交</el-button>
@@ -68,10 +62,9 @@
 </template>
 
 <script>
-import { handleImg, openWindow } from '@/util'
+import { handleImg } from '@/util'
 import { mapState } from 'vuex'
 import store from '@/store'
-import { getStore } from '@/util/store'
 import { isValidateNoneMobile } from '@/util/validate'
 import { editInfo } from '@/api/admin/user'
 
@@ -86,7 +79,7 @@ export default {
     }
     const validatePass = (rule, value, callback) => {
       if (this.ruleForm.password !== '') {
-        if (value !== this.ruleForm.newpassword1) {
+        if (value !== this.ruleForm.newPassword) {
           callback(new Error('两次输入密码不一致!'))
         } else {
           callback()
@@ -103,8 +96,8 @@ export default {
       ruleForm: {
         username: '',
         password: '',
-        newpassword1: '',
-        newpassword2: '',
+        newPassword: '',
+        confirmPassword: '',
         avatar: '',
         phone: '',
         nickname: '',
@@ -121,7 +114,7 @@ export default {
             trigger: 'blur'
           }
         ],
-        newpassword1: [
+        newPassword: [
           {
             required: false,
             min: 6,
@@ -129,7 +122,7 @@ export default {
             trigger: 'blur'
           }
         ],
-        newpassword2: [
+        confirmPassword: [
           { required: false, validator: validatePass, trigger: 'blur' }
         ]
       }
@@ -149,7 +142,7 @@ export default {
         if (!valid) {
           return false
         }
-        editInfo(this.ruleForm).then((response) => {
+        editInfo(this.ruleForm).then(() => {
           this.$notify.success('修改成功')
           // 修改后注销当前token,重新登录
           this.$store.dispatch('LogOut').then(() => {
@@ -160,8 +153,8 @@ export default {
     },
     resetForm() {
       this.ruleForm.password = undefined
-      this.ruleForm.newpassword1 = undefined
-      this.ruleForm.newpassword2 = undefined
+      this.ruleForm.newPassword = undefined
+      this.ruleForm.confirmPassword = undefined
       this.ruleForm.username = this.userInfo.username
       this.ruleForm.phone = this.userInfo.phone
       this.ruleForm.avatar = this.userInfo.avatar
@@ -169,36 +162,10 @@ export default {
       this.ruleForm.name = this.userInfo.name
       this.ruleForm.email = this.userInfo.email
       handleImg(this.userInfo.avatar, 'avatar')
-      //判断是否选择了租户ID
-      const TENANT_ID = getStore({ name: 'tenantId' })
-      if (TENANT_ID) {
-        this.headers['TENANT-ID'] = TENANT_ID // 租户ID
-      }
     },
     handleAvatarSuccess(res, file) {
       this.avatarUrl = URL.createObjectURL(file.raw)
       this.ruleForm.avatar = res.data.url
-    },
-    handleClick(thirdpart) {
-      let appid, client_id, url
-      const redirect_uri = encodeURIComponent(
-        window.location.origin + '/#/authredirect'
-      )
-      if (thirdpart === 'wechat') {
-        appid = 'wxd1678d3f83b1d83a'
-        url = `https://open.weixin.qq.com/connect/qrconnect?appid=${appid}&redirect_uri=${redirect_uri}&state=WX-BIND&response_type=code&scope=snsapi_login#wechat_redirect`
-      } else if (thirdpart === 'tencent') {
-        client_id = '101322838'
-        url = `https://graph.qq.com/oauth2.0/authorize?response_type=code&state=QQ-BIND&client_id=${client_id}&redirect_uri=${redirect_uri}`
-      } else if (thirdpart === 'gitee') {
-        client_id =
-          'f5a05b92e869e4e3e037dffc3d54b2bb7fb9d5e45bcde67cd6472adb03e0b9dd'
-        url = `https://gitee.com/oauth/authorize?response_type=code&state=GITEE-BIND&client_id=${client_id}&redirect_uri=${redirect_uri}`
-      } else if (thirdpart === 'osc') {
-        client_id = 'neIIqlwGsjsfsA6uxNqD'
-        url = `https://www.oschina.net/action/oauth2/authorize?response_type=code&client_id=${client_id}&state=OSC-BIND&redirect_uri=${redirect_uri}`
-      }
-      openWindow(url, thirdpart, 540, 540)
     }
   }
 }

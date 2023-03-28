@@ -15,7 +15,7 @@ const DB_NAME = {
  * @returns {Promise<*>}
  */
 export async function getMenu(id) {
-  return await cloud.invokeFunction('sys-user-menu-list', { id })
+  return await cloud.invokeFunction('sys-user-resource', { id })
 }
 
 /**
@@ -23,7 +23,7 @@ export async function getMenu(id) {
  * @returns {Promise<*>}
  */
 export async function getTopMenu() {
-  return await cloud.invokeFunction('sys-user-menu-list', { type: 'top' })
+  return await cloud.invokeFunction('sys-user-resource', { type: 'top' })
 }
 
 /**

@@ -1,7 +1,7 @@
 import { getDetails, getDetailsByPhone } from '@/api/admin/user'
 
 
-var validateUsername = (rule, value, callback) => {
+const validateUsername = (rule, value, callback) => {
   const flag = new RegExp(/^([a-z\u4e00-\u9fa5\d]+?)$/).test(value)
   if (!flag) {
     callback(new Error('用户名支持小写英文、数字、中文'))
@@ -18,7 +18,7 @@ var validateUsername = (rule, value, callback) => {
   })
 }
 
-var validatePhone = (rule, value, callback) => {
+const validatePhone = (rule, value, callback) => {
   getDetailsByPhone(value).then(response => {
     if (window.boxType === 'edit') callback()
     const result = response.data.data
@@ -43,14 +43,6 @@ export const tableOption = {
   addBtn: false,
   column: [{
     fixed: true,
-    label: 'id',
-    prop: 'userId',
-    span: 24,
-    hide: true,
-    editDisabled: true,
-    addDisplay: false
-  }, {
-    fixed: true,
     label: '用户名',
     prop: 'username',
     editDisabled: true,
@@ -61,13 +53,13 @@ export const tableOption = {
       required: true,
       message: '请输入用户名'
     },
-      {
-        min: 3,
-        max: 20,
-        message: '长度在 3 到 20 个字符',
-        trigger: 'blur'
-      },
-      { validator: validateUsername, trigger: 'blur' }
+    {
+      min: 3,
+      max: 20,
+      message: '长度在 3 到 20 个字符',
+      trigger: 'blur'
+    },
+    { validator: validateUsername, trigger: 'blur' }
     ]
   }, {
     label: '密码',
@@ -106,7 +98,7 @@ export const tableOption = {
       message: '长度在 11 个字符',
       trigger: 'blur'
     },
-      { validator: validatePhone, trigger: 'blur' }
+    { validator: validatePhone, trigger: 'blur' }
     ]
   }, {
     label: '所属部门',
@@ -122,84 +114,84 @@ export const tableOption = {
       trigger: 'change'
     }]
   },
-    {
-      label: '岗位',
-      prop: 'post',
-      overHidden: true,
-      formslot: true,
-      slot: true,
-      span: 24,
-      rules: [{
-        required: true,
-        message: '请选择岗位',
-        trigger: 'blur'
-      }]
-    }, {
-      label: '角色',
-      prop: 'role',
-      formslot: true,
-      slot: true,
-      overHidden: true,
-      span: 24,
-      rules: [{
-        required: true,
-        message: '请选择角色',
-        trigger: 'blur'
-      }]
-    }, {
-      label: '状态',
-      prop: 'lockFlag',
-      type: 'radio',
-      slot: true,
-      border: true,
-      span: 24,
-      rules: [{
-        required: true,
-        message: '请选择状态',
-        trigger: 'blur'
-      }],
-      value: '0',
-      dicData: [{
-        label: '有效',
-        value: '0'
-      }, {
-        label: '锁定',
-        value: '9'
-      }]
-    },
-    {
-      hide: true,
-      label: '昵称',
-      prop: 'nickname',
-      value: '',
-      span: 24,
-      rules: [{
-        min: 1,
-        max: 64,
-        message: '请输入昵称',
-        trigger: 'blur'
-      }]
-    },
-    {
-      hide: true,
-      label: '邮箱',
-      prop: 'email',
-      value: '',
-      span: 24,
-      rules: [{
-        min: 4,
-        max: 128,
-        message: '请输入邮箱',
-        trigger: 'blur'
-      }]
-    }, {
-      label: '创建时间',
-      prop: 'createTime',
-      type: 'datetime',
-      format: 'yyyy-MM-dd HH:mm',
-      valueFormat: 'yyyy-MM-dd HH:mm:ss',
-      editDisabled: true,
-      addDisplay: false,
-      span: 24
+  {
+    label: '岗位',
+    prop: 'post',
+    overHidden: true,
+    formslot: true,
+    slot: true,
+    span: 24,
+    rules: [{
+      required: true,
+      message: '请选择岗位',
+      trigger: 'blur'
     }]
+  }, {
+    label: '角色',
+    prop: 'role',
+    formslot: true,
+    slot: true,
+    overHidden: true,
+    span: 24,
+    rules: [{
+      required: true,
+      message: '请选择角色',
+      trigger: 'blur'
+    }]
+  }, {
+    label: '状态',
+    prop: 'lockFlag',
+    type: 'radio',
+    slot: true,
+    border: true,
+    span: 24,
+    rules: [{
+      required: true,
+      message: '请选择状态',
+      trigger: 'blur'
+    }],
+    value: '0',
+    dicData: [{
+      label: '有效',
+      value: '0'
+    }, {
+      label: '锁定',
+      value: '9'
+    }]
+  },
+  {
+    hide: true,
+    label: '昵称',
+    prop: 'nickname',
+    value: '',
+    span: 24,
+    rules: [{
+      min: 1,
+      max: 64,
+      message: '请输入昵称',
+      trigger: 'blur'
+    }]
+  },
+  {
+    hide: true,
+    label: '邮箱',
+    prop: 'email',
+    value: '',
+    span: 24,
+    rules: [{
+      min: 4,
+      max: 128,
+      message: '请输入邮箱',
+      trigger: 'blur'
+    }]
+  }, {
+    label: '创建时间',
+    prop: 'createTime',
+    type: 'datetime',
+    format: 'yyyy-MM-dd HH:mm',
+    valueFormat: 'yyyy-MM-dd HH:mm:ss',
+    editDisplay: false,
+    addDisplay: false,
+    span: 24
+  }]
 }
