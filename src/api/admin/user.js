@@ -56,7 +56,7 @@ export async function fetchList(query) {
 
 
 export async function addObj(obj) {
-  return await cloud.invokeFunction('sys-user-create', { obj })
+  return await cloud.invokeFunction('sys-user-create', obj)
 }
 
 export async function getObj(id) {
@@ -128,54 +128,50 @@ export async function delObj(id) {
 }
 
 export async function putObj(obj) {
-  return await cloud.invokeFunction('sys-user-update', { obj })
+  return await cloud.invokeFunction('sys-user-update', obj)
 }
 
-export async function getDetails(obj) {
-  console.debug('User[getDetails] obj->', obj)
+export async function getDetails(username) {
+  console.debug('User[getDetails] username->', username)
   const { data: user, ok } = await DB
     .collection(DB_NAME.SYS_USER)
-    .where({ username: obj.username })
+    .where({ username: username })
     .getOne()
   if (!user) {
     return {
-      data: {},
-      success: ok,
-      total: 0
+      data: null,
+      success: ok
     }
   }
   console.debug('User[getDetails] result->', user)
   return {
     data: user,
-    success: ok,
-    total: 0
+    success: ok
   }
 }
 
 
-export async function getDetailsByPhone(obj) {
-  console.debug('User[getDetailsByPhone] obj->', obj)
+export async function getDetailsByPhone(phone) {
+  console.debug('User[getDetailsByPhone] phone->', phone)
   const { data: user, ok } = await DB
     .collection(DB_NAME.SYS_USER)
-    .where({ phone: obj.phone })
+    .where({ phone: phone })
     .getOne()
   if (!user) {
     return {
-      data: {},
-      success: ok,
-      total: 0
+      data: null,
+      success: ok
     }
   }
   console.debug('User[getDetailsByPhone] result->', user)
   return {
     data: user,
-    success: ok,
-    total: 0
+    success: ok
   }
 }
 
 export async function editInfo(obj) {
-  return await cloud.invokeFunction('sys-user-edit', { obj })
+  return await cloud.invokeFunction('sys-user-edit', obj)
 }
 
 /**

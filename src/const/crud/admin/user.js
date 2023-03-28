@@ -9,8 +9,8 @@ const validateUsername = (rule, value, callback) => {
 
   getDetails(value).then(response => {
     if (window.boxType === 'edit') callback()
-    const result = response.data.data
-    if (result !== null) {
+    const { data } = response
+    if (data !== null) {
       callback(new Error('用户名已经存在'))
     } else {
       callback()
@@ -21,8 +21,8 @@ const validateUsername = (rule, value, callback) => {
 const validatePhone = (rule, value, callback) => {
   getDetailsByPhone(value).then(response => {
     if (window.boxType === 'edit') callback()
-    const result = response.data.data
-    if (result !== null) {
+    const { data } = response
+    if (data !== null) {
       callback(new Error('手机号已经存在'))
     } else {
       callback()
