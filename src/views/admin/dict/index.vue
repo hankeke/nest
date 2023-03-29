@@ -37,13 +37,10 @@
       <avue-crud
         ref="crudItem"
         v-model="form"
-        :page.sync="itemPage"
         :data="tableDictItemData"
         :permission="permissionList"
         :before-open="handleBeforeOpen"
         :option="tableDictItemOption"
-        @size-change="itemSizeChange"
-        @current-change="itemCurrentChange"
         @row-update="handleItemUpdate"
         @row-save="handleItemSave"
         @row-del="rowItemDel" />
@@ -71,11 +68,6 @@ export default {
       tableData: [],
       tableDictItemData: [],
       page: {
-        total: 0, // 总页数
-        currentPage: 1, // 当前页数
-        pageSize: 20 // 每页显示多少条
-      },
-      itemPage: {
         total: 0, // 总页数
         currentPage: 1, // 当前页数
         pageSize: 20 // 每页显示多少条
@@ -156,21 +148,17 @@ export default {
     //======字典项表格相关=====
     dictItemVisible: function() {
       this.dialogFormVisible = false
-      this.itemPage.currentPage = 1
     },
     handleItem: function(row) {
-      this.dictId = row.id
+      this.dictId = row._id
       this.dictType = row.dictType
       this.getDictItemList()
     },
     getDictItemList() {
       this.dialogFormVisible = true
-      fetchItemList(Object.assign({
-        current: this.itemPage.currentPage,
-        size: this.itemPage.pageSize
-      }, { dictId: this.dictId })).then(response => {
-        this.tableDictItemData = response.data.data.records
-        this.itemPage.total = response.data.data.total
+      fetchItemList({ dictId: this.dictId }).then(response => {
+        const { data } = response
+        this.tableDictItemData = data
       })
     },
     handleBeforeOpen(done) {
@@ -191,14 +179,6 @@ export default {
         this.getDictItemList()
         done()
       })
-    },
-    itemSizeChange(pageSize) {
-      this.itemPage.pageSize = pageSize
-      this.getDictItemList()
-    },
-    itemCurrentChange(current) {
-      this.itemPage.currentPage = current
-      this.getDictItemList()
     },
     rowItemDel: function(row) {
       this.$confirm('是否确认删除数据为"' + row.label + '"的数据项?', '警告', {

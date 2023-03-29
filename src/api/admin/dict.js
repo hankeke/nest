@@ -1,5 +1,6 @@
 import request from '@/router/axios'
 import { cloud } from "@/api/cloud"
+import { R } from "@/util/R"
 
 const DB = cloud.database()
 const DB_NAME = {
@@ -35,42 +36,81 @@ export async function fetchList(query) {
   return r
 }
 
-export function addObj(obj) {
-  return request({
-    url: '/admin/dict/',
-    method: 'post',
-    data: obj
-  })
+export async function addObj(obj) {
+  console.debug('Dict[addObj] request param query->', obj)
+  const o = {
+    ...obj,
+    createTime: Date.now(),
+    updateTime: Date.now(),
+    delFlag: '0',
+    records: []
+  }
+  const r = await DB.collection(DB_NAME.SYS_DICT).add(o)
+  console.debug('Dict[addObj] result->', r)
+  return r
 }
 
-export function getObj(id) {
-  return request({
-    url: '/admin/dict/' + id,
-    method: 'get'
-  })
+export async function getObj(id) {
+  console.debug('Dict[getObj] request param ID->', id)
+  const res = await DB.collection(DB_NAME.SYS_DICT).where({
+    _id: id
+  }).getOne()
+  console.debug('Dict[getObj] response result->', res)
+  return res
 }
 
-export function delObj(row) {
-  return request({
-    url: '/admin/dict/' + row.id,
-    method: 'delete'
-  })
+export async function delObj(id) {
+  console.debug('Dict[delObj] request param ID->', id)
+  const res = await DB.collection(DB_NAME.SYS_DICT).where({
+    _id: id
+  }).remove()
+  console.debug('Dict[delObj] response result->', res)
+  return res
 }
 
-export function putObj(obj) {
-  return request({
-    url: '/admin/dict/',
-    method: 'put',
-    data: obj
-  })
+export async function putObj(obj) {
+  console.debug('Dict[putObj] request param query->', obj)
+  const { _id: id } = obj
+  const { data: param } = await DB.collection(DB_NAME.SYS_DICT)
+    .where({ _id: id })
+    .getOne()
+  if (!param) {
+    return R.failed("更新的对象不存在")
+  }
+  const data = {
+    ...obj,
+    _id: undefined,
+    updateTime: Date.now(),
+    delFlag: '0'
+  }
+  console.debug('Dict[putObj] data->', data)
+  delete data._id
+  const res = await DB.collection(DB_NAME.SYS_DICT)
+    .doc(id)
+    .update(data)
+  console.debug('Dict[putObj] result->', res)
+  return R.ok(res.matched)
 }
 
-export function fetchItemList(query) {
-  return request({
-    url: '/admin/dict/item/page',
-    method: 'get',
-    params: query
-  })
+export async function fetchItemList(query) {
+  console.debug('Dict[fetchItemList] request param query->', query)
+  const { dictId } = query
+  const { data: dict, ok } = await DB
+    .collection(DB_NAME.SYS_DICT)
+    .where({ _id: dictId })
+    .getOne()
+  if (!dict.records && dict.records.length === 0) {
+    return {
+      data: [],
+      success: ok
+    }
+  }  
+  const r = {
+    data: dict.records,
+    success: ok
+  }
+  console.debug('Dict[fetchItemList] result->', r)
+  return r
 }
 
 export function addItemObj(obj) {

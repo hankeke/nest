@@ -81,10 +81,10 @@ export const tableOption = {
     label: '创建时间',
     prop: 'createTime',
     type: 'datetime',
-    addDisplay: false,
-    editDisabled: true,
     format: 'yyyy-MM-dd HH:mm',
-    valueFormat: 'yyyy-MM-dd HH:mm:ss'
+    valueFormat: 'yyyy-MM-dd HH:mm:ss',
+    'addDisplay': false,
+    'editDisplay': false
   }]
 }
 
