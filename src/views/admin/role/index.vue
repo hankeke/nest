@@ -24,24 +24,6 @@
             icon="el-icon-edit"
             @click="handleCreate">添加
           </el-button>
-          <el-button
-            v-if="permissions.sys_role_export"
-            class="filter-item"
-            plain
-            type="primary"
-            size="small"
-            icon="el-icon-upload"
-            @click="$refs.excelUpload.show()">导入
-          </el-button>
-          <el-button
-            v-if="permissions.sys_role_export"
-            class="filter-item"
-            plain
-            type="primary"
-            size="small"
-            icon="el-icon-download"
-            @click="exportExcel">导出
-          </el-button>
         </template>
         <template slot="dsScopeForm" slot-scope="{}">
           <div v-if="form.dsType === 1">

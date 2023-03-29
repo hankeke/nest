@@ -1,13 +1,13 @@
 import { rule } from '@/util/validateRules'
 
-import { getObj } from '@/api/admin/sys-public-param'
+import { getObj } from '@/api/admin/sys-param'
 
 
 const validateParam = (rule, value, callback) => {
   getObj(value).then(response => {
     if (window.boxType === 'edit') callback()
-    const result = response.data.data
-    if (result !== null) {
+    const { data } = response
+    if (data !== null) {
       callback(new Error('参数键已经存在'))
     } else {
       callback()
@@ -41,7 +41,6 @@ export const tableOption = {
         { validator: rule.validatorKey, trigger: 'blur' },
         { validator: validateParam, trigger: 'blur' }
       ]
-
     },
     {
       label: '值',
@@ -59,6 +58,7 @@ export const tableOption = {
       label: '业务类型',
       prop: 'systemFlag',
       type: 'select',
+      value: '1',
       dicData: [
         {
           "label": "系统类",
@@ -79,8 +79,8 @@ export const tableOption = {
     {
       label: '状态',
       prop: 'status',
-      width: 80,
       type: 'select',
+      value: '0',
       dicData: [
         {
           "label": "正常",
@@ -98,8 +98,8 @@ export const tableOption = {
     {
       label: '参数类型',
       prop: 'publicType',
-      width: 80,
       type: 'select',
+      value: '0',
       dicData: [
         {
           "label": "检索",
@@ -140,6 +140,5 @@ export const tableOption = {
         trigger: 'blur'
       }]
     }
-    // 省略 ...
   ]
 }

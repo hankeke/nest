@@ -23,8 +23,8 @@
 </template>
 
 <script>
-import { addObj, delObj, fetchList, putObj } from '@/api/admin/sys-public-param'
-import { tableOption } from '@/const/crud/admin/sys-public-param'
+import { addObj, delObj, fetchList, putObj } from '@/api/admin/sys-param'
+import { tableOption } from '@/const/crud/admin/sys-param'
 import { mapGetters } from 'vuex'
 
 export default {
@@ -56,7 +56,6 @@ export default {
     getList(page, params) {
       this.tableLoading = true
       fetchList(Object.assign({
-        descs: 'create_time',
         current: page.currentPage,
         size: page.pageSize
       }, params, this.searchForm)).then(response => {
@@ -91,10 +90,16 @@ export default {
      *
      **/
     handleUpdate: function(row, index, done, loading) {
-      putObj(row).then(data => {
-        this.$message.success('修改成功')
-        done()
-        this.getList(this.page)
+      putObj(row).then(res => {
+        const { code, msg } = res
+        if (code === 0) {
+          this.$message.success('修改成功')
+          done()
+          this.getList(this.page)
+        } else {
+          this.$message.error(msg)
+          done()
+        }
       }).catch(() => {
         loading()
       })

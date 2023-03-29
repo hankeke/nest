@@ -24,11 +24,10 @@ export const tableOption = {
   refreshBtn: false,
   showClomnuBtn: false,
   searchMenuSpan: 6,
-  searchSize: 'mini',
   column: [{
-    label: '类型',
+    label: '字典类型',
+    span: 24,
     prop: 'dictType',
-    dicData: [{ label: '系统类', value: '1' }, { label: '业务类', value: '0' }],
     search: true,
     editDisabled: true,
     rules: [{
@@ -36,18 +35,13 @@ export const tableOption = {
       message: '请输入字典类型',
       trigger: 'blur'
     }, { validator: validateDict, trigger: 'blur' }]
-  }, {
-    label: '描述',
-    prop: 'description',
-    rules: [{
-      required: true,
-      message: '请输入字典描述',
-      trigger: 'blur'
-    }]
-  }, {
-    label: '字典类型',
+  },
+  {
+    span: 24,
+    label: '所属分类',
     prop: 'systemFlag',
     type: 'select',
+    value: '0',
     dicData: [{ label: '系统类', value: '1' }, { label: '业务类', value: '0' }],
     rules: [{
       required: true,
@@ -55,10 +49,34 @@ export const tableOption = {
       trigger: 'blur'
     }],
     search: true
-  }, {
+  },
+  {
+    label: '描述',
+    prop: 'description',
+    type: 'textarea',
+    span: 24,
+    row: true,
+    minRows: 2,
+    rules: [{
+      required: true,
+      message: '请输入字典描述',
+      trigger: 'blur'
+    }]
+  },
+  {
+    width: 150,
     label: '备注信息',
-    prop: 'remarks'
-  }, {
+    prop: 'remarks',
+    overHidden: true,
+    type: 'textarea',
+    span: 24,
+    row: true,
+    minRows: 2,
+    rules: [
+      { max: 128, message: '长度在 128 个字符内', trigger: 'blur' }
+    ]
+  },
+  {
     width: 150,
     label: '创建时间',
     prop: 'createTime',

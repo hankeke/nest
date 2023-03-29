@@ -101,8 +101,7 @@ export default {
       this.tableLoading = true
       fetchList(Object.assign({
         current: page.currentPage,
-        size: page.pageSize,
-        descs: 'create_time'
+        size: page.pageSize
       }, params, this.searchForm)).then(response => {
         const { data, total } = response
         this.tableData = data
