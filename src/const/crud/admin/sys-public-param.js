@@ -3,7 +3,7 @@ import { rule } from '@/util/validateRules'
 import { getObj } from '@/api/admin/sys-public-param'
 
 
-var validateParam = (rule, value, callback) => {
+const validateParam = (rule, value, callback) => {
   getObj(value).then(response => {
     if (window.boxType === 'edit') callback()
     const result = response.data.data
@@ -56,10 +56,19 @@ export const tableOption = {
       prop: 'validateCode'
     },
     {
-      label: '类型',
+      label: '业务类型',
       prop: 'systemFlag',
       type: 'select',
-      dicUrl: '/admin/dict/type/dict_type',
+      dicData: [
+        {
+          "label": "系统类",
+          "value": "1"
+        },
+        {
+          "label": "业务类",
+          "value": "0"
+        }
+      ],
       rules: [{
         required: true,
         message: '请输入类型',
@@ -72,17 +81,59 @@ export const tableOption = {
       prop: 'status',
       width: 80,
       type: 'select',
-      dicUrl: '/admin/dict/type/status_type',
+      dicData: [
+        {
+          "label": "正常",
+          "value": "0"
+        },
+        {
+          "label": "冻结",
+          "value": "9"
+        }
+      ],
       rules: [
         { required: true, message: '请输入值', trigger: 'blur' }
       ]
     },
     {
-      label: '类型',
+      label: '参数类型',
       prop: 'publicType',
       width: 80,
       type: 'select',
-      dicUrl: '/admin/dict/type/param_type',
+      dicData: [
+        {
+          "label": "检索",
+          "value": "1"
+        },
+        {
+          "label": "原文",
+          "value": "2"
+        },
+        {
+          "label": "报表",
+          "value": "3"
+        },
+        {
+          "label": "安全",
+          "value": "4"
+        },
+        {
+          "label": "文档",
+          "value": "5"
+        },
+        {
+          "label": "消息",
+          "value": "6"
+        },
+        {
+          "label": "其他",
+          "value": "9"
+        },
+        {
+          "label": "默认",
+          "value": "0"
+        }
+      ],
       rules: [{
         required: true,
         message: '请选择类型',
