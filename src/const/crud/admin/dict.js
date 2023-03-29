@@ -1,4 +1,4 @@
-import { remote } from '@/api/admin/dict.js' 
+import { remote } from '@/api/admin/dict.js'
 
 const validateDict = (rule, value, callback) => {
   remote(value).then(response => {
@@ -28,6 +28,7 @@ export const tableOption = {
   column: [{
     label: '类型',
     prop: 'dictType',
+    dicData: [{ label: '系统类', value: '1' }, { label: '业务类', value: '0' }],
     search: true,
     editDisabled: true,
     rules: [{
@@ -47,6 +48,7 @@ export const tableOption = {
     label: '字典类型',
     prop: 'systemFlag',
     type: 'select',
+    dicData: [{ label: '系统类', value: '1' }, { label: '业务类', value: '0' }],
     rules: [{
       required: true,
       message: '请输入字典类型',
