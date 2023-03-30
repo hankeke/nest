@@ -157,7 +157,7 @@ export async function delItemObj(dictId, id, dictType) {
 
 export async function putItemObj(obj) {
   console.debug('Dict[putItemObj] request param query->', obj)
-  const { dictId, _id: id, dictType } = obj
+  const { dictId, _id: itemId } = obj
   const { data: dict } = await DB.collection(DB_NAME.SYS_DICT)
     .where({ _id: dictId })
     .getOne()
@@ -171,7 +171,7 @@ export async function putItemObj(obj) {
       {
         _id: dictId,
         records: {
-          _id: id
+          _id: itemId
         }
       }
     )
