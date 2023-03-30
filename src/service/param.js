@@ -1,4 +1,4 @@
-import { cloud } from "@/api/cloud"
+import { cloud } from "@/cloud"
 import { R } from "@/util/R"
 
 const DB = cloud.database()

@@ -23,7 +23,7 @@
 </template>
 
 <script>
-import { addObj, delObj, fetchList, putObj } from '@/service/sys-param.js'
+import { addObj, delObj, fetchList, putObj } from '@/service/param.js'
 import { tableOption } from '@/views/admin/param/index.js'
 import { mapGetters } from 'vuex'
 

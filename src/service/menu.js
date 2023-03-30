@@ -1,4 +1,4 @@
-import { cloud } from "@/api/cloud"
+import { cloud } from "@/cloud"
 
 const DB = cloud.database()
 const DB_NAME = {

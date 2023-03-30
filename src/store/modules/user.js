@@ -1,6 +1,6 @@
 import { getStore, setStore } from '@/util/store'
 import { isURL, validatenull } from '@/util/validate'
-import { getUserInfo, loginByUsername, logout } from '@/api/login'
+import { getUserInfo, loginByUsername, logout } from '@/func'
 import { deepClone } from '@/util'
 import website from '@/const/website'
 import { getMenu, getTopMenu } from '@/service/menu'

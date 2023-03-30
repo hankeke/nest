@@ -1,5 +1,5 @@
 import qs from 'qs'
-import { cloud } from "@/api/cloud.js"
+import { cloud } from "@/cloud.js"
 
 export const loginByUsername = async(username, password) => {
   const param = qs.parse({ username: username, password: password })
