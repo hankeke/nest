@@ -1,8 +1,9 @@
 import request from '@/router/axios'
-import { cloud } from "@/api/cloud"
 import { R } from "@/util/R"
+import { cloud } from "@/api/cloud"
 
 const DB = cloud.database()
+const CMD = DB.command
 const DB_NAME = {
   SYS_DICT: 'sys_dict'
 }
@@ -71,7 +72,8 @@ export async function delObj(id) {
 export async function putObj(obj) {
   console.debug('Dict[putObj] request param query->', obj)
   const { _id: id } = obj
-  const { data: param } = await DB.collection(DB_NAME.SYS_DICT)
+  const { data: param } = await DB
+    .collection(DB_NAME.SYS_DICT)
     .where({ _id: id })
     .getOne()
   if (!param) {
@@ -104,7 +106,7 @@ export async function fetchItemList(query) {
       data: [],
       success: ok
     }
-  }  
+  }
   const r = {
     data: dict.records,
     success: ok
@@ -113,12 +115,29 @@ export async function fetchItemList(query) {
   return r
 }
 
-export function addItemObj(obj) {
-  return request({
-    url: '/admin/dict/item',
-    method: 'post',
-    data: obj
-  })
+export async function addItemObj(obj) {
+  console.debug('Dict[addItemObj] request param obj->', obj)
+  const { dictId } = obj
+  const { data: dict } = await DB.collection(DB_NAME.SYS_DICT)
+    .where({ _id: dictId })
+    .getOne()
+  if (!dict) {
+    return R.failed("操作的对象不存在")
+  }
+  const doc = {
+    ...obj,
+    _id: DB.ObjectId().toHexString(),
+    delFlag: "0",
+    updateTime: Date.now(),
+    createTime: Date.now()
+  }
+  const res = await DB
+    .collection(DB_NAME.SYS_DICT)
+    .doc(dictId)
+    .update({
+      records: CMD.push(doc)
+    })
+  console.debug('Dict[addItemObj] res->', res)
 }
 
 export function getItemObj(id) {
@@ -128,19 +147,50 @@ export function getItemObj(id) {
   })
 }
 
-export function delItemObj(id) {
-  return request({
-    url: '/admin/dict/item/' + id,
-    method: 'delete'
-  })
+export async function delItemObj(dictId, id, dictType) {
+  console.debug('Dict[delItemObj] request param dictId id->', dictId, id)
+  const res = await DB
+    .collection(DB_NAME.SYS_DICT)
+    .where({ _id: dictId }
+    )
+    .update({
+      $pull: {
+        _id: id,
+        dictId: dictId,
+        dictType: dictType
+      }
+    })
+  console.debug('Dict[delItemObj] res->', res)
 }
 
-export function putItemObj(obj) {
-  return request({
-    url: '/admin/dict/item',
-    method: 'put',
-    data: obj
-  })
+export async function putItemObj(obj) {
+  console.debug('Dict[putItemObj] request param query->', obj)
+  const { dictId, _id: id, dictType } = obj
+  const { data: dict } = await DB.collection(DB_NAME.SYS_DICT)
+    .where({ _id: dictId })
+    .getOne()
+  if (!dict) {
+    return R.failed("更新的对象不存在")
+  }
+  const doc = { ...obj, updateTime: Date.now() }
+  const res = await DB
+    .collection(DB_NAME.SYS_DICT)
+    .where(
+      {
+        _id: dictId,
+        records: {
+          _id: id,
+          dictId: dictId,
+          dictType: dictType
+        }
+      }
+    )
+    .update(
+      {
+        "records.$": doc
+      }
+    )
+  console.debug('Dict[putItemObj] res->', res)
 }
 
 export async function remote(type) {

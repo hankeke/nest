@@ -16,9 +16,7 @@
         @size-change="sizeChange"
         @current-change="currentChange"
         @row-del="rowDel">
-        <template
-          slot="menu"
-          slot-scope="scope">
+        <template slot="menu" slot-scope="scope">
           <el-button
             v-if="permissions.sys_dict_add"
             type="text"
@@ -43,7 +41,7 @@
         :option="tableDictItemOption"
         @row-update="handleItemUpdate"
         @row-save="handleItemSave"
-        @row-del="rowItemDel" />
+        @row-del="rowItemDel"></avue-crud>
     </el-dialog>
   </div>
 </template>
@@ -145,7 +143,10 @@ export default {
     currentChange(current) {
       this.page.currentPage = current
     },
-    //======字典项表格相关=====
+
+    /***
+     * 字典项表格相关
+     */
     dictItemVisible: function() {
       this.dialogFormVisible = false
     },
@@ -186,7 +187,7 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(function() {
-        return delItemObj(row.id)
+        return delItemObj(row.dictId, row._id, row.dictType)
       }).then(() => {
         this.getDictItemList()
         this.$message.success('删除成功')
