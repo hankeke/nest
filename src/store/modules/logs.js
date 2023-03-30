@@ -1,23 +1,9 @@
 import { getStore, setStore } from '@/util/store'
 import { dateFormat } from '@/filters/'
-import { sendLogs } from '@/service/log'
 
 const logs = {
   state: {
     logsList: getStore({ name: 'logsList' }) || []
-  },
-  actions: {
-    // 发送错误日志
-    SendLogs({ state, commit }) {
-      return new Promise((resolve, reject) => {
-        sendLogs(state.logsList).then(() => {
-          commit('CLEAR_LOGS')
-          resolve()
-        }).catch(error => {
-          reject(error)
-        })
-      })
-    }
   },
   mutations: {
     ADD_LOGS: (state, { type, message, stack, info }) => {
