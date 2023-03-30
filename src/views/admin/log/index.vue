@@ -43,8 +43,8 @@
 </template>
 
 <script>
-import { delObj, delObjs, fetchList } from '@/api/admin/log'
-import { tableOption } from '@/const/crud/admin/log'
+import { delObj, delObjs, fetchList } from '@/service/log.js'
+import { tableOption } from '@/views/admin/log/index.js'
 import { mapGetters } from 'vuex'
 
 export default {

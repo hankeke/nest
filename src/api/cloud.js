@@ -1,5 +1,5 @@
 import { Cloud, EnvironmentType } from 'laf-client-sdk'
-import { getToken } from "@/api/auth"
+import { getToken } from "@/util/auth"
 
 export const APP_ID = 'cflg6f'
 export const API_ENDPOINT = 'https://cflg6f.laf.dev'

@@ -110,11 +110,11 @@
 </template>
 
 <script>
-import { listPosts } from '@/api/admin/post'
-import { addObj, delObj, fetchList, putObj } from '@/api/admin/user'
-import { deptRoleList } from '@/api/admin/role'
-import { fetchTree } from '@/api/admin/dept'
-import { tableOption } from '@/const/crud/admin/user'
+import { listPosts } from '@/service/post.js'
+import { addObj, delObj, fetchList, putObj } from '@/service/user.js'
+import { deptRoleList } from '@/service/role.js'
+import { fetchTree } from '@/service/dept.js'
+import { tableOption } from '@/views/admin/user/index.js'
 import { mapGetters } from 'vuex'
 
 export default {

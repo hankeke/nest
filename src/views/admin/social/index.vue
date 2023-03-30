@@ -16,14 +16,14 @@
         @current-change="currentChange"
         @row-update="handleUpdate"
         @row-save="handleSave"
-        @row-del="rowDel"/>
+        @row-del="rowDel" />
     </basic-container>
   </div>
 </template>
 
 <script>
-import { addObj, delObj, fetchList, putObj } from '@/api/admin/sys-social-details'
-import { tableOption } from '@/const/crud/admin/sys-social-details'
+import { addObj, delObj, fetchList, putObj } from '@/service/sys-social.js'
+import { tableOption } from '@/views/admin/social/index.js'
 import { mapGetters } from 'vuex'
 
 export default {

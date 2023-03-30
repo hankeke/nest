@@ -73,7 +73,7 @@
 </template>
 
 <script>
-import { addObj, getObj, list, putObj } from '@/api/admin/menu'
+import { addObj, getObj, list, putObj } from '@/service/menu.js'
 import Treeselect from '@riophae/vue-treeselect'
 import iconList from '@/const/iconList'
 import '@riophae/vue-treeselect/dist/vue-treeselect.css'

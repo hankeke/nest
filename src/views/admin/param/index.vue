@@ -23,8 +23,8 @@
 </template>
 
 <script>
-import { addObj, delObj, fetchList, putObj } from '@/api/admin/sys-param'
-import { tableOption } from '@/const/crud/admin/sys-param'
+import { addObj, delObj, fetchList, putObj } from '@/service/sys-param.js'
+import { tableOption } from '@/views/admin/param/index.js'
 import { mapGetters } from 'vuex'
 
 export default {

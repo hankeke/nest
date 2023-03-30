@@ -47,8 +47,8 @@
 </template>
 
 <script>
-import { addItemObj, addObj, delItemObj, delObj, fetchItemList, fetchList, putItemObj, putObj } from '@/api/admin/dict'
-import { tableDictItemOption, tableOption } from '@/const/crud/admin/dict'
+import { addItemObj, addObj, delItemObj, delObj, fetchItemList, fetchList, putItemObj, putObj } from '@/service/dict.js'
+import { tableDictItemOption, tableOption } from '@/views/admin/dict/index.js'
 import { mapGetters } from 'vuex'
 
 export default {

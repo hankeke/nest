@@ -66,7 +66,7 @@ import { handleImg } from '@/util'
 import { mapState } from 'vuex'
 import store from '@/store'
 import { isValidateNoneMobile } from '@/util/validate'
-import { editInfo } from '@/api/admin/user'
+import { editInfo } from '@/service/user.js'
 
 export default {
   data() {

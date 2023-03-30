@@ -92,10 +92,10 @@
 </template>
 
 <script>
-import { addObj, delObj, fetchList, fetchMenuIdsByRoleId, permissionUpd, putObj } from '@/api/admin/role'
-import { tableOption } from '@/const/crud/admin/role'
-import { fetchTree } from '@/api/admin/dept'
-import { list } from '@/api/admin/menu'
+import { addObj, delObj, fetchList, fetchMenuIdsByRoleId, permissionUpd, putObj } from '@/service/role.js'
+import { tableOption } from '@/views/admin/role/index.js'
+import { fetchTree } from '@/service/dept.js'
+import { list } from '@/service/menu.js'
 import { mapGetters } from 'vuex'
 
 export default {

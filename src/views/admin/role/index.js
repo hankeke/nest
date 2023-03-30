@@ -1,5 +1,5 @@
 import { rule } from '@/util/validateRules'
-import { getObjByCode } from '@/api/admin/role.js'
+import { getObjByCode } from '@/service/role.js'
 
 const validateRoleCode = (rule, value, callback) => {
   getObjByCode(value).then(response => {

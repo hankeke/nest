@@ -1,4 +1,4 @@
-import { getDetails, getDetailsByPhone } from '@/api/admin/user'
+import { getDetails, getDetailsByPhone } from '@/service/user'
 
 
 const validateUsername = (rule, value, callback) => {

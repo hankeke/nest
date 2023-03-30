@@ -31,8 +31,8 @@
 </template>
 
 <script>
-import { delObj, fetchList } from '@/api/admin/sys-file'
-import { tableOption } from '@/const/crud/admin/sys-file'
+import { delObj, fetchList } from '@/service/sys-file.js'
+import { tableOption } from '@/views/admin/file/index.js'
 import { mapGetters } from 'vuex'
 
 export default {
