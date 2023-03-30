@@ -1,4 +1,3 @@
-import request from '@/router/axios'
 import { R } from "@/util/R"
 import { cloud } from "@/api/cloud"
 
@@ -140,13 +139,6 @@ export async function addItemObj(obj) {
   console.debug('Dict[addItemObj] res->', res)
 }
 
-export function getItemObj(id) {
-  return request({
-    url: '/admin/dict/item/' + id,
-    method: 'get'
-  })
-}
-
 export async function delItemObj(dictId, id, dictType) {
   console.debug('Dict[delItemObj] request param dictId id->', dictId, id)
   const res = await DB
@@ -179,9 +171,7 @@ export async function putItemObj(obj) {
       {
         _id: dictId,
         records: {
-          _id: id,
-          dictId: dictId,
-          dictType: dictType
+          _id: id
         }
       }
     )
